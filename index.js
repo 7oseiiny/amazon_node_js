@@ -1,13 +1,36 @@
 const express =require ('express')
 const mongoose =require ('mongoose')
-const middlewares =require ('./src/middlewares/middlewares')
+var middlewares =require ('./src/middlewares/middlewares')
+var userRoutes =require('./src/routes/user')
+const cors = require('cors');
 
 var app=express()
 
-middlewares.origin("*")
-middlewares.express_json()
+app.use(cors(
+    {
+        origin:'*'
+    }
+))
+app.use(express.json())
+
+
+
+app.use('/user',userRoutes)
+
+app.use('*',function(req,res,next){
+    res.send({message:"not found"})
+    next();
+
+})
+
+app.use(function(err,req,res,next){
+    res.send({message:"something went wrong !"})
+    next();
+
+})
 
 
 
 
-
+mongoose.connect("mongodb://127.0.0.1:27017/amazon").then(()=>{console.log("connect pass");})
+app.listen(3300, _ => { console.log("ok"); })

@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
-const userSchema=new mongoose.Schema(
+var userSchema= mongoose.Schema(
     {
         fristName:{
             type:String,
             require:true,
             minlength:[2,'min length is 2']
-        },
+            },
         lastName:{
             type:String,
             require:true,
@@ -53,6 +53,6 @@ userSchema.pre("save",async function(next){
 )
 
 
-const User_model = mongoose.model('User',userSchema)
+var User_model = mongoose.model('User',userSchema)
 
 module.exports=User_model
