@@ -18,6 +18,37 @@ router.post("/signup", async (req, res) => {
     }
 })
 
+router.post("/login", async (req, res) => {
+    var{email,password}=req.body
+
+    if (!email||!password) {
+        res.send({message:'pls provide email and pass'})
+    }
+    else{
+        var user =await userModel.findOne({email:email})
+        if (!user) {
+            res.send({message:'invalid email or pass'})
+        }
+        else{
+            var isvalid =await bcrypt.compare(password,user.password)
+            if (!isvalid) {
+                res.send({message:'wrong pass'})
+            }
+            else{
+                var token = jwt.sign({userID:user.id,name:user.username},process.env.SECRET)
+                // var decoded= await promisify(jwt.verify) (token,process.env.SECRET)
+                // console.log(decoded);
+                console.log(req.headers.authorization);
+                req.headers.authorization=token
+                console.log(req.headers.authorization);
+                res.send({token:token,status:'success'+process.env.SECRET})
+
+            }
+        }
+    }
+})
+
+
 router.get("/", async (req, res) => {
 
     try {
