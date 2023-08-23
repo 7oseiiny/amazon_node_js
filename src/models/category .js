@@ -5,11 +5,17 @@ const categorySchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  description: String,
-},
-{timestamps:true}
+  products:
+  [
+    {type: mongoose.SchemaTypes.ObjectId, ref: 'product',},
+  ]
+
+}, {
+  timestamps: true
+}
+
 );
 
-const Category_model = mongoose.model('Category', categorySchema);
+const categoryModel = mongoose.model('Category', categorySchema);
 
-module.exports = Category_model;
+module.exports = categoryModel;
