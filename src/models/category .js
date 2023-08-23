@@ -6,11 +6,9 @@ const categorySchema = new mongoose.Schema({
     required: true
   },
   description: String,
-  createdAt: {
-    type: Date,
-    default: Date.now
-  }
-});
+},
+{timestamps:true}
+);
 
 const Category_model = mongoose.model('Category', categorySchema);
 
