@@ -2,6 +2,7 @@ const express =require ('express')
 const mongoose =require ('mongoose')
 var middlewares =require ('./src/middlewares/middlewares')
 var userRoutes =require('./src/routes/user')
+var cartRoutes =require('./src/routes/cart')
 const cors = require('cors');
 
 var app=express()
@@ -16,6 +17,7 @@ app.use(express.json())
 
 
 app.use('/user',userRoutes)
+app.use('/cart',cartRoutes)
 
 app.use('*',function(req,res,next){
     res.send({message:"not found"})
