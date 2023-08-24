@@ -5,6 +5,9 @@ var userRoutes =require('./src/routes/user');
 var cartRoutes =require('./src/routes/cart');
 const productRoutes=require('./src/routes/products');
 const categoryRoutes=require('./src/routes/category');
+const reviewRoutes=require('./src/routes/review');
+const adminRoutes = require('./src/routes/admin');
+
 const cors = require('cors');
 const sellerRoutes = require('./src/routes/seller')
 
@@ -20,9 +23,17 @@ app.use(express.json())
 
 app.use('/product',productRoutes);
 app.use('/category',categoryRoutes);
+<<<<<<< Updated upstream
 app.use('/user',userRoutes);
 app.use('/cart',cartRoutes);
 app.use('/seller',sellerRoutes);
+=======
+app.use('/user',userRoutes)
+app.use('/cart',cartRoutes)
+app.use('/review',reviewRoutes)
+app.use('/admin', adminRoutes);
+
+>>>>>>> Stashed changes
 
 app.use('*',function(req,res,next){
     res.send({message:"not found"})
