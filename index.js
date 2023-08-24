@@ -7,6 +7,7 @@ const productRoutes=require('./src/routes/products');
 const categoryRoutes=require('./src/routes/category');
 const reviewRoutes=require('./src/routes/review');
 const adminRoutes = require('./src/routes/admin');
+const orderRoutes = require('./src/routes/order');
 
 const cors = require('cors');
 const sellerRoutes = require('./src/routes/seller')
@@ -28,6 +29,7 @@ app.use('/cart',cartRoutes)
 app.use('/review',reviewRoutes)
 app.use('/admin', adminRoutes)
 app.use('/seller',sellerRoutes);
+app.use('/order',orderRoutes);
 
 
 

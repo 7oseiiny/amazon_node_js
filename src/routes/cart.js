@@ -41,7 +41,7 @@ console.log(userId);
 router.post('/:userId/newCart', async (req, res) => {
     var userId = req.params.userId
     var cart = req.body
-    cart.userId=userId
+    cart.user=userId
         try {
             var newcart = await addNewCart(cart)
             res.status(201).json({ data: newcart })
