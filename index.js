@@ -23,8 +23,14 @@ app.use(express.json())
 
 app.use('/product',productRoutes);
 app.use('/category',categoryRoutes);
+<<<<<<< Updated upstream
 app.use('/user',userRoutes)
 app.use('/cart',cartRoutes)
+=======
+app.use('/user',userRoutes);
+app.use('/cart',cartRoutes);
+app.use('/seller',sellerRoutes);
+>>>>>>> Stashed changes
 app.use('/review',reviewRoutes)
 app.use('/admin', adminRoutes)
 app.use('/seller',sellerRoutes);
