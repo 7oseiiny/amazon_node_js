@@ -1,16 +1,12 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
-
-var userSchema= mongoose.Schema(
+var sellerSchema= mongoose.Schema(
     {
         fristName:{
             type:String,
-            require:true,
             minlength:[2,'min length is 2']
             },
         lastName:{
             type:String,
-            require:true,
             minlength:[2,'min length is 2']
         },
         userName:{
@@ -30,29 +26,22 @@ var userSchema= mongoose.Schema(
         password:{
             type:String,
             require:true,
-            minlength:[10,'min length is 10']
+            minlength:[4,'min length is 4']
 
         },
-        role:{
-            type:String,
-            default:"user",
-            enum: ["user", "admin","seller"],
-        },
-        // address:{
-        //     type:String
-        // }
-    }
-)
-
-userSchema.pre("save",async function(next){
-        var salt =await bcrypt.genSalt(10)
-        var hashedpass=await bcrypt.hash(this.password,salt)
-        this.password=hashedpass
-        next()
+      
+       
     }
 )
 
 
-var User_model = mongoose.model('User',userSchema)
+sellerSchema.pre("save",async function(next){
+    var salt =await bcrypt.genSalt(10)
+    var hashedpass=await bcrypt.hash(this.password,salt)
+    this.password=hashedpass
+    next()
+})
 
-module.exports=User_model
+var sellerModel = mongoose.model('seller',sellerSchema)
+
+module.exports=sellerModel
