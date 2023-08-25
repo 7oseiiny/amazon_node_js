@@ -7,7 +7,7 @@ const productRoutes=require('./src/routes/products');
 const categoryRoutes=require('./src/routes/category');
 const cors = require('cors');
 const sellerRoutes = require('./src/routes/seller')
-
+const FavRoutes= require('./src/routes/favorite');
 var app=express()
 
 app.use(cors(
@@ -23,6 +23,7 @@ app.use('/category',categoryRoutes);
 app.use('/user',userRoutes);
 app.use('/cart',cartRoutes);
 app.use('/seller',sellerRoutes);
+app.use('/favourite',FavRoutes);
 
 app.use('*',function(req,res,next){
     res.send({message:"not found"})
