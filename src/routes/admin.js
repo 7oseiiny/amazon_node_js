@@ -50,10 +50,6 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// router.get("/", authMiddleware, (req, res) => {
-//   res.json({
-//     message: `Hello, ${admin.username}! This is a protected admin route.`,
-//   });
-// });
+
 
 module.exports = router;

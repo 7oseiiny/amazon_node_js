@@ -8,10 +8,10 @@ function getAllReviews(){
     return ReviewModel.find()
 }
 function getReviewById(id){
-    return todosModel.findOne({_id:id})
+    return ReviewModel.findOne({_id:id})
   }
 function getUserReviewById(id){
-    return ReviewModel.findOne({userId:id}).populate('products')
+    return ReviewModel.findOne({user:id})
 }
 
 function updateReview(id,reviewData){
