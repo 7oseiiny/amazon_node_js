@@ -7,41 +7,41 @@ const authMiddleware = require("../middlewares/auth");
 const { saveAdmin } = require("../controllers/admin");
 
 router.post("/signup", async (req, res) => {
-  const { username, password, email } = req.body;
+  const { adminName, password, email } = req.body;
 
-  if (!username || !password || !email) {
+  if (!adminName || !password || !email) {
     return res.status(400).json({ message: "Missing required fields" });
   }
 
   try {
-    const newadmin = await saveAdmin(req.body);
-    res.status(201).json({ data: newadmin });
+    const newAdmin = await saveAdmin(req.body);
+    res.status(201).json({ data: newAdmin });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
 router.post("/login", async (req, res) => {
-  const { username, password } = req.body;
+  const { adminName, password } = req.body;
 
-  if (!username || !password) {
+  if (!adminName || !password) {
     return res
       .status(400)
       .json({ message: "Please provide username or password" });
   }
 
   try {
-    var user = await adminModel.findOne({ username });
-    if (!user) {
+    var admin = await adminModel.findOne({ adminName });
+    if (!admin) {
       return res.status(401).json({ message: "Invalid username or password" });
     }
-    var isValid = await bcrypt.compare(password, user.password);
+    var isValid = await bcrypt.compare(password, admin.password);
     if (!isValid) {
       return res.status(401).json({ message: "Invalid username or password" });
     }
 
     var token = jwt.sign(
-      { id: user._id, name: user.username },
+      { id: admin._id, name: admin.adminName },
       process.env.SECRET
     );
     res.status(200).json({ token, status: "success" });
@@ -50,10 +50,6 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// router.get("/", authMiddleware, (req, res) => {
-//   res.json({
-//     message: `Hello, ${admin.username}! This is a protected admin route.`,
-//   });
-// });
+
 
 module.exports = router;
