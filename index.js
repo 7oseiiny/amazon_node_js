@@ -24,10 +24,15 @@ app.use(express.json())
 
 app.use('/product',productRoutes);
 app.use('/category',categoryRoutes);
-app.use('/user',userRoutes)
-app.use('/cart',cartRoutes)
+
+app.use('/user',userRoutes);
+app.use('/cart',cartRoutes);
+app.use('/seller',sellerRoutes);
+app.use('/review',reviewRoutes)
+app.use('/admin', adminRoutes)
 app.use('/seller',sellerRoutes);
 app.use('/favourite',FavRoutes);
+
 
 app.use('*',function(req,res,next){
     res.send({message:"not found"})
@@ -44,6 +49,6 @@ app.use(function(err,req,res,next){
 
 
 
-mongoose.connect("mongodb://127.0.0.1:27017/amazon").then(()=>{console.log("connect pass");})
+mongoose.connect("mongodb+srv://admin:itiAmazon@cluster0.ke6bvtv.mongodb.net/amazon").then(()=>{console.log("connect pass");})
 app.listen(3300, _ => { console.log("ok"); })
 
