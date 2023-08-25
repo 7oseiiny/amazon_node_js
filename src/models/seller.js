@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require("bcryptjs");
 var sellerSchema= mongoose.Schema(
     {
         fristName:{

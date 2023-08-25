@@ -8,7 +8,7 @@ var { saveNewSeller, getAllUSellers, deleteSeller, getSellerById, updateSeller }
 
 
 // Create a new seller
-router.post('/seller/signup', async (req, res) => {
+router.post('/signup', async (req, res) => {
   const seller = req.body;
   try {
     var newSeller = await saveNewSeller(seller)

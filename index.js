@@ -47,4 +47,3 @@ app.use(function(err,req,res,next){
 mongoose.connect("mongodb://127.0.0.1:27017/amazon").then(()=>{console.log("connect pass");})
 app.listen(3300, _ => { console.log("ok"); })
 
-// mongodb+srv://admin:itiAmazon@cluster0.ke6bvtv.mongodb.net/amazon
