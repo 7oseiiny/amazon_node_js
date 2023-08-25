@@ -9,6 +9,7 @@ const {
 const express = require("express");
 const router = express.Router();
 
+
 router.post("/", async (req, res) => {
   try {
     var review = req.body;
@@ -18,7 +19,7 @@ router.post("/", async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
-router.get("/", async (req, res) => {
+router.get("/",async (req, res) => {
   try {
     let reviews = await getAllReviews();
     res.status(201).json({ data: reviews });
@@ -30,9 +31,9 @@ router.get("/", async (req, res) => {
 router.get("/:id",async(req,res)=>{
     var {id}=req.params
     try{
-        var todo = await getReviewById(id)
+        var review = await getReviewById(id)
     if(review){
-        res.status(200).json({data:todo})
+        res.status(200).json({data:review})
     }else{
         res.status(404).json({message:"id not found"})
     }
