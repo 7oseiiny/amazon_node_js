@@ -43,26 +43,28 @@ function getFavoriteByUserId(userId){
         var newFavitems=[...oldFav.productId,...products]
         return FavoriteModel.findOneAndUpdate({userId:userId},{productId:newFavitems},{new:true}).populate('userId')
     }
-    async function removeProductsInCart(userId,productId ){
-        var oldCart=await getCartByUserId(userId)
-        console.log(oldCart);
-        for (let i = 0; i < oldCart.items.length; i++) {
-            if (oldCart.items[i].product === productId) {
-                oldCart.items.splice(i, 1);
+    
+    async function removeProductsInFav(userId,productId ){
+        var oldFav=await getFavoriteByUserId(userId)
+        console.log(oldFav);
+        for (let i = 0; i < oldFav.productId.length; i++) {
+            if (oldFav.productId[i] == productId) {
+                oldFav.productId.splice(i, 1);
             }
         }
-        console.log(oldCart);
-        var newcartitems =[...oldCart.items]
-    
-        return Cart_model.findOneAndUpdate({user:userId},{items:newcartitems},{new:true}).populate('user')
+        console.log(oldFav);
+        var newFavitems =[...oldFav.productId]
 
- }
+        return FavoriteModel.findOneAndUpdate({userId:userId},{productId:newFavitems},{new:true}).populate('userId')
+    }
+
  
  module.exports= {
     saveFavorite,
     getAllFavorites,
     addNewProductsInFav,
     getFavoriteByUserId,
+    removeProductsInFav
    
   } 
 

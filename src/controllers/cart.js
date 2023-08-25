@@ -20,11 +20,12 @@ async function  addNewProductsInCart (userId ,products){
     var newcartitems=[...oldCart.items,...products]
     return Cart_model.findOneAndUpdate({user:userId},{items:newcartitems},{new:true}).populate('user')
 }
+
 async function removeProductsInCart(userId,productId ){
     var oldCart=await getCartByUserId(userId)
     console.log(oldCart);
     for (let i = 0; i < oldCart.items.length; i++) {
-        if (oldCart.items[i].product === productId) {
+        if (oldCart.items[i].product == productId) {
             oldCart.items.splice(i, 1);
         }
     }

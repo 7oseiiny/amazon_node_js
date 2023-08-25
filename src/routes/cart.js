@@ -53,7 +53,7 @@ router.post('/:userId/newCart', async (req, res) => {
 // add new product in item in cart
 router.post('/:userId/addProductInCart', async (req, res) => {
     var userId = req.params.userId
-    var products = req.body
+    var products = req.body.items
      try {
          var newproducts = await addNewProductsInCart(userId,products)
          res.status(201).json({ data: newproducts })

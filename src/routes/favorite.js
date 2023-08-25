@@ -5,6 +5,7 @@ const {
   getAllFavorites,
   getFavoriteByUserId,
   addNewProductsInFav,
+  removeProductsInFav
 } = require("../controllers/Favorite");
 
 try {
@@ -42,7 +43,7 @@ router.get("/:userId", async (req, res) => {
 
 router.post('/:userId/addProductInFav', async (req, res) => {
   var userId = req.params.userId
-  var products = req.body
+  var products = req.body.productId
    try {
        var newproducts = await addNewProductsInFav(userId,products)
        res.status(201).json({ data: newproducts })
@@ -51,6 +52,20 @@ router.post('/:userId/addProductInFav', async (req, res) => {
    }
 });
 
+
+router.post('/:userId/removeProductsInFav/:productId', async (req, res) => {
+  var userId = req.params.userId
+  var productId = req.params.productId
+  console.log(userId);
+  console.log(productId);
+   try {
+       var newproducts = await removeProductsInFav(userId,productId)
+       res.status(201).json({ data: newproducts })
+   } catch (err) {
+      console.log("rrrrrr");
+       res.status(500).json({ message: err.message })
+   }
+});
 
 // Update a favorite by ID
 router.patch("/:id",async (req, res) => {
