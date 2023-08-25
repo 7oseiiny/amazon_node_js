@@ -5,13 +5,18 @@ var {promisify}=require('util')
 var router=express.Router()
 const userModel = require('../models/user');
 var {saveNewUser,getAllUsers,deleteUser,getUserById,updateUser} = require('../controllers/user');
+var {addNewCart} = require('../controllers/cart');
 
 
 router.post("/signup", async (req, res) => {
     var user = req.body
+
     try {
 
         var newuser = await saveNewUser(user)
+        var newcart ={"user":newuser._id}
+        await addNewCart(newcart)
+
         res.status(201).json({ data: newuser })
     } catch (err) {
         res.status(500).json({ message: err.message })
