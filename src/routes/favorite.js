@@ -31,6 +31,8 @@ router.get("/", async (req, res) => {
     res.status(500).json({ message: err });
   }
 });
+
+// Read a specific Favorite by userID
 router.get("/:userId", async (req, res) => {
   let userId = req.params.userId;
   try {
@@ -41,6 +43,7 @@ router.get("/:userId", async (req, res) => {
   }
 });
 
+// adds a product to a user's favorites
 router.post('/:userId/addProductInFav', async (req, res) => {
   var userId = req.params.userId
   var products = req.body.productId
@@ -52,7 +55,7 @@ router.post('/:userId/addProductInFav', async (req, res) => {
    }
 });
 
-
+// removes a product from a user's favorites
 router.post('/:userId/removeProductsInFav/:productId', async (req, res) => {
   var userId = req.params.userId
   var productId = req.params.productId
@@ -62,7 +65,6 @@ router.post('/:userId/removeProductsInFav/:productId', async (req, res) => {
        var newproducts = await removeProductsInFav(userId,productId)
        res.status(201).json({ data: newproducts })
    } catch (err) {
-      console.log("rrrrrr");
        res.status(500).json({ message: err.message })
    }
 });
