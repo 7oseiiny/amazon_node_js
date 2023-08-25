@@ -31,7 +31,7 @@ app.use('/seller',sellerRoutes);
 app.use('/review',reviewRoutes)
 app.use('/admin', adminRoutes)
 app.use('/seller',sellerRoutes);
-app.use('/favourite',FavRoutes);
+app.use('/favorite',FavRoutes);
 
 
 app.use('*',function(req,res,next){

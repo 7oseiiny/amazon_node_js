@@ -3,8 +3,8 @@ const router = express.Router();
 const {
   saveFavorite,
   getAllFavorites,
-  updateFavorite,
-  deleteFavorite,
+  getFavoriteByUserId,
+  addNewProductsInFav,
 } = require("../controllers/Favorite");
 
 try {
@@ -30,11 +30,32 @@ router.get("/", async (req, res) => {
     res.status(500).json({ message: err });
   }
 });
+router.get("/:userId", async (req, res) => {
+  let userId = req.params.userId;
+  try {
+    let favorites = await getFavoriteByUserId(userId);
+    res.status(201).json({ data: favorites });
+  } catch (err) {
+    res.status(500).json({ message: err });
+  }
+});
+
+router.post('/:userId/addProductInFav', async (req, res) => {
+  var userId = req.params.userId
+  var products = req.body
+   try {
+       var newproducts = await addNewProductsInFav(userId,products)
+       res.status(201).json({ data: newproducts })
+   } catch (err) {
+       res.status(500).json({ message: err.message })
+   }
+});
+
 
 // Update a favorite by ID
 router.patch("/:id",async (req, res) => {
   try {
-    let favoriteId = reg.params;
+    let favoriteId = req.params;
     let newData = req.body;
     let updatedFavorite = await updateFavorite(favoriteId,newData)
     res.status(201).json({ data: updatedFavorite, message: "Favorite updated" })
