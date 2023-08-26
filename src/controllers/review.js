@@ -11,7 +11,7 @@ function getReviewById(id){
     return ReviewModel.findOne({_id:id})
   }
 function getUserReviewById(id){
-    return ReviewModel.findOne({user:id})
+    return ReviewModel.findOne({user:id}).populate("product").populate("user")
 }
 
 function updateReview(id,reviewData){
