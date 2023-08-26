@@ -1,11 +1,11 @@
 const ReviewModel=require('../models/review');
 
 
-function saveReview(review){
-    return ReviewModel.create(review);
+function saveReview(userId, productId, rating,comment){
+    return ReviewModel.create({user:userId,product:productId,rating:rating,comment:comment})
 }
 function getAllReviews(){
-    return ReviewModel.find()
+    return ReviewModel.find().populate("product").populate("user")
 }
 function getReviewById(id){
     return ReviewModel.findOne({_id:id})

@@ -10,10 +10,12 @@ const express = require("express");
 const router = express.Router();
 
 
-router.post("/", async (req, res) => {
+router.post("/:user/:product", async (req, res) => {
+  var userId = req.params.user;
+    var productId = req.params.product;
+    var {rating,comment}= req.body;
   try {
-    var review = req.body;
-    let newReview = await saveReview(review);
+    let newReview = await saveReview(userId, productId, rating,comment);
     res.status(201).json({ data: newReview });
   } catch (err) {
     res.status(500).json({ message: err.message });
