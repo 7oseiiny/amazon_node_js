@@ -1,9 +1,10 @@
 const {saveCategory,getAllCategories,getCategory,updateCategory,deleteCategory,addProductsToCategory} = require('../controllers/category');
 const express = require('express');
+const authMiddleware = require('../middlewares/auth');
 
 const router = express.Router();
 
-router.post('/', async (req, res) => {
+router.post('/', authMiddleware,async (req, res) => {
     try {
         let Category = req.body;
         let newCategory = await saveCategory(Category);
@@ -13,18 +14,7 @@ router.post('/', async (req, res) => {
     }
 
 })
-// router.post('/addProduct/:categoryId', async (req, res) => {
-//     try {
-//         let {categoryId}=req.params;
-//         let {productId} = req.body;
-//         console.log('Category ID:', categoryId);
-//         let newCategory = await addProductsToCategory(categoryId,productId);
-//         res.status(201).json({ data: newCategory })
-//     } catch (err) {
-//         res.status(500).json({ message: err});
-//     }
 
-// })
 router.get('/', async (req, res) => {
     try {
         let Categories = await getAllCategories();
@@ -42,7 +32,7 @@ router.get('/:id', async (req, res) => {
         res.status(500).json({ message: err });
     }
 })
-router.patch('/:id', async (req, res) => {
+router.patch('/:id',authMiddleware ,async (req, res) => {
     try {
         let { id } = req.params;
         let newData = req.body;
@@ -53,7 +43,7 @@ router.patch('/:id', async (req, res) => {
         res.status(500).json({ message: err });
     }
 })
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', authMiddleware,async (req, res) => {
     try {
         let { id } = req.params;
         let deleteData = await deleteCategory(id);
