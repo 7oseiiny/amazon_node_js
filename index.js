@@ -8,6 +8,7 @@ const categoryRoutes=require('./src/routes/category');
 const reviewRoutes=require('./src/routes/review');
 const adminRoutes = require('./src/routes/admin');
 const orderRoutes = require('./src/routes/order');
+const subcategoryRoutes=require('./src/routes/subcategory');
 
 const cors = require('cors');
 const sellerRoutes = require('./src/routes/seller')
@@ -32,7 +33,8 @@ app.use('/review',reviewRoutes)
 app.use('/admin', adminRoutes)
 app.use('/seller',sellerRoutes);
 app.use('/favorite',FavRoutes);
-
+app.use('/order',orderRoutes);
+app.use('/subcategory',subcategoryRoutes);
 
 app.use('*',function(req,res,next){
     res.send({message:"not found"})

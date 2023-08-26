@@ -1,9 +1,18 @@
-const User_model = require('../models/user');
+const Order_model = require('../models/order');
 
-function addOrder(user){
-
-    return User_model.create(user)
+function addOrder(body) {
+    return Order_model.create(body)
+}
+function orderDelete(id) {
+    return Order_model.deleteOne({ _id: id })
+}
+function getOrderItems(id) {
+    return Order_model.findOne({ _id: id })
+}
+function getOrderItemsByUserID(id) {
+    return Order_model.find({ user: id })
 }
 
- 
-module.exports = {addOrder}
+
+
+module.exports = { addOrder, orderDelete, getOrderItems, getOrderItemsByUserID }
