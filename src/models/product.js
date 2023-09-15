@@ -1,7 +1,11 @@
 const mongoose = require('mongoose');
 
 const productSchema = new mongoose.Schema({
-  title: {
+  title_en: {
+    type: String,
+    required: true
+  },
+  title_ar: {
     type: String,
     required: true
   },
@@ -18,10 +22,17 @@ const productSchema = new mongoose.Schema({
     discount: Number,
     shipping: Number,
   },
-  info: {
+  info_en: {
     type: Object,
   },
-  aboutItem: {
+  info_ar: {
+    type: Object,
+  },
+  aboutItem_en: {
+    type: Array,
+    required:true,
+  },
+  aboutItem_ar: {
     type: Array,
     required:true,
   },
