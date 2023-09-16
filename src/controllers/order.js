@@ -13,7 +13,7 @@ function getOrderItemsByUserID(id) {
     return Order_model.find({ user: id })
 }
 function getAllOrders() {
-    return Order_model.find()
+    return Order_model.find().populate('user').populate('products')
 }
 
 
