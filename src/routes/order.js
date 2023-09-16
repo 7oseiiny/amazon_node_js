@@ -6,7 +6,7 @@ var router = express.Router()
 const userModel = require('../models/user');
 const cart = require('../controllers/cart')
 var { getCartByUserId } = require('../controllers/cart');
-var { orderDelete, addOrder, getOrderItems,getOrderItemsByUserID } = require("../controllers/order")
+var { orderDelete, addOrder, getOrderItems,getOrderItemsByUserID,getAllOrders } = require("../controllers/order")
 
 
 // router.post("/:userId/addNewOrder", async (req, res) => {
@@ -67,6 +67,16 @@ router.get("/:orderId", async (req, res) => {
         res.status(500).json({ massage: "id not  found" })
     }
 });
+
+router.get("/", async (req, res) => {
+
+    try {
+        var orders = await getAllOrders()
+        res.json({ data: orders })
+    } catch (err) {
+        res.status(500).json({ message: err.message })
+    }
+})
 router.get("/getByUserId/:userId", async (req, res) => {
     const userID = req.params.userId;
     try {
