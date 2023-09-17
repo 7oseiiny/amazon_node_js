@@ -38,9 +38,9 @@ var userSchema= mongoose.Schema(
             default:"user",
             enum: ["user", "admin","seller"],
         },
-        // address:{
-        //     type:String
-        // }
+        address:{
+            type:String
+        }
     }
 )
 
@@ -53,6 +53,6 @@ userSchema.pre("save",async function(next){
 )
 
 
-var User_model = mongoose.model('User',userSchema)
+var User_model = mongoose.model('user',userSchema)
 
 module.exports=User_model
