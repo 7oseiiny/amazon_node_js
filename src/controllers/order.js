@@ -1,7 +1,7 @@
 const Order_model = require('../models/order');
 
-function addOrder(body) {
-    return Order_model.create(body)
+function addOrder(order) {
+    return Order_model.create(order)
 }
 function orderDelete(id) {
     return Order_model.deleteOne({ _id: id })

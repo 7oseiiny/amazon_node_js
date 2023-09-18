@@ -9,31 +9,38 @@ var { getCartByUserId } = require('../controllers/cart');
 var { orderDelete, addOrder, getOrderItems,getOrderItemsByUserID,getAllOrders } = require("../controllers/order")
 
 
-// router.post("/:userId/addNewOrder", async (req, res) => {
-//     var userId = req.params.userId
-
-//     var cartt = await getCartByUserId(userId)
-//    if (cartt.items.length==0) {
-//     res.status(500).json({ data:"card is  empty" })
-
-//    }else{
-//     res.status(201).json({ data:cartt})
-
-//    }
-
-// })
-
 router.post("/:userId/addNewOrder", async (req, res) => {
-    var cartt = await addOrder(req.body)
-    if (cartt.products.length == 0) {
-        res.status(500).json({ data: "card is  empty" })
+    var userId = req.params.userId
+    var order = req.body
+    order.user=userId
 
-    } else {
-        res.status(200).json({ data: cartt })
 
-    }
+    var cartt = await getCartByUserId(userId)
+// console.log(cartt.items);
+   if (cartt.items.length==0) {
+    res.status(500).json({ data:"card is  empty" })
+
+   }else{
+    order.products=[...cartt.items]
+    var neworder = await addOrder(order);
+
+    res.status(201).json({ data:neworder})
+
+   }
 
 })
+
+// router.post("/:userId/addNewOrder", async (req, res) => {
+//     var cartt = await addOrder(req.body)
+//     if (cartt.products.length == 0) {
+//         res.status(500).json({ data: "card is  empty" })
+
+//     } else {
+//         res.status(200).json({ data: cartt })
+
+//     }
+
+// })
 router.delete("/:orderId", async (req, res) => {
     var { orderId } = req.params
     try {
