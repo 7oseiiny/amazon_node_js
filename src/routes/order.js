@@ -88,4 +88,15 @@ router.get("/getByUserId/:userId", async (req, res) => {
     }
 })
 
+// router.patch("/:orderId",async(req,res)=>{
+//     const orderId = req.params.orderId;
+//     try {
+//         var orders = await getOrderItemsByUserID(userID);
+//         res.status(200).json({data: orders})
+
+//     }catch(error){
+//         res.status(500).json({message: error})
+//     }
+// })
+
 module.exports = router 

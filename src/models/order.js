@@ -28,9 +28,13 @@ const orderSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now
+  },
+  status:{
+    type :String ,
+    default:"process"
   }
 });
 
-const Order_model = mongoose.model('Order', orderSchema);
+const Order_model = mongoose.model('order', orderSchema);
 
 module.exports = Order_model;
