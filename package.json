@@ -6,7 +6,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "SET SECRET=this-is-my-jwt-secret&&nodemon index"
-
   },
   "author": "",
   "license": "ISC",

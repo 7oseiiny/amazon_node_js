@@ -3,7 +3,7 @@ const express = require('express');
 const authMiddleware = require('../middlewares/auth');
 const router = express.Router();
 
-router.post('/',authMiddleware ,async (req, res) => {
+router.post('/',async (req, res) => {
     try {
         let product = req.body;
         let newProduct = await saveProduct(product);
@@ -21,7 +21,7 @@ router.get('/', async (req, res) => {
         res.status(500).json({ message: err });
     }
 })
-router.patch('/:id',authMiddleware ,async (req, res) => {
+router.patch('/:id' ,async (req, res) => {
     try {
         let { id } = req.params;
         let newData = req.body;
@@ -31,7 +31,7 @@ router.patch('/:id',authMiddleware ,async (req, res) => {
         res.status(500).json({ message: err });
     }
 })
-router.delete('/:id',authMiddleware ,async (req, res) => {
+router.delete('/:id',async (req, res) => {
     try {
         let { id } = req.params;
         let deleteData = await deleteProduct(id);

@@ -30,11 +30,11 @@ const productSchema = new mongoose.Schema({
   },
   aboutItem_en: {
     type: Array,
-    required:true,
+    required: false,
   },
   aboutItem_ar: {
     type: Array,
-    required:true,
+    required: false,
   },
   categoryId: {
     type: mongoose.SchemaTypes.ObjectId,

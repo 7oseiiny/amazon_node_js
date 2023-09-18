@@ -4,7 +4,7 @@ const authMiddleware = require('../middlewares/auth');
 
 const router = express.Router();
 
-router.post('/', authMiddleware,async (req, res) => {
+router.post('/',async (req, res) => {
     try {
         let Category = req.body;
         let newCategory = await saveCategory(Category);
@@ -32,7 +32,7 @@ router.get('/:id', async (req, res) => {
         res.status(500).json({ message: err });
     }
 })
-router.patch('/:id',authMiddleware ,async (req, res) => {
+router.patch('/:id' ,async (req, res) => {
     try {
         let { id } = req.params;
         let newData = req.body;
@@ -43,7 +43,7 @@ router.patch('/:id',authMiddleware ,async (req, res) => {
         res.status(500).json({ message: err });
     }
 })
-router.delete('/:id', authMiddleware,async (req, res) => {
+router.delete('/:id',async (req, res) => {
     try {
         let { id } = req.params;
         let deleteData = await deleteCategory(id);
