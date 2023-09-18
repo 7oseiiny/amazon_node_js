@@ -38,8 +38,12 @@ const productSchema = new mongoose.Schema({
   },
   categoryId: {
     type: mongoose.SchemaTypes.ObjectId,
-    ref: 'Category',
+    ref: 'category',
   },
+  quantity:{
+    type : Number ,  
+    default:0
+  }
 
 },
 {timestamps:true}

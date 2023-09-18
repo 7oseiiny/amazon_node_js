@@ -5,35 +5,51 @@ var { promisify } = require('util')
 var router = express.Router()
 const userModel = require('../models/user');
 const cart = require('../controllers/cart')
-var { getCartByUserId } = require('../controllers/cart');
+var { getCartByUserId ,clearCart } = require('../controllers/cart');
+var { updatequantity } = require('../controllers/products');
 var { orderDelete, addOrder, getOrderItems,getOrderItemsByUserID,getAllOrders } = require("../controllers/order")
 
 
-// router.post("/:userId/addNewOrder", async (req, res) => {
-//     var userId = req.params.userId
-
-//     var cartt = await getCartByUserId(userId)
-//    if (cartt.items.length==0) {
-//     res.status(500).json({ data:"card is  empty" })
-
-//    }else{
-//     res.status(201).json({ data:cartt})
-
-//    }
-
-// })
-
 router.post("/:userId/addNewOrder", async (req, res) => {
-    var cartt = await addOrder(req.body)
-    if (cartt.products.length == 0) {
-        res.status(500).json({ data: "card is  empty" })
+    var userId = req.params.userId
+    var order = req.body
+    order.user=userId
 
-    } else {
-        res.status(200).json({ data: cartt })
+
+    var cartt = await getCartByUserId(userId)
+// console.log(cartt.items);
+   if (cartt.items.length==0) {
+    res.status(500).json({ data:"card is  empty" })
+
+   }else{
+    order.products=[...cartt.items]
+    for (const x of order.products) {
+        console.log(x.product._id);
+        console.log(x.quantity);
+        await updatequantity(x.product._id ,x.quantity)///////
 
     }
+    var neworder = await addOrder(order ,userId);
+    ////updatequantity
+    await clearCart(userId)
+
+    res.status(201).json({ data:neworder})
+
+   }
 
 })
+
+// router.post("/:userId/addNewOrder", async (req, res) => {
+//     var cartt = await addOrder(req.body)
+//     if (cartt.products.length == 0) {
+//         res.status(500).json({ data: "card is  empty" })
+
+//     } else {
+//         res.status(200).json({ data: cartt })
+
+//     }
+
+// })
 router.delete("/:orderId", async (req, res) => {
     var { orderId } = req.params
     try {
@@ -87,5 +103,16 @@ router.get("/getByUserId/:userId", async (req, res) => {
         res.status(500).json({message: error})
     }
 })
+
+// router.patch("/:orderId",async(req,res)=>{
+//     const orderId = req.params.orderId;
+//     try {
+//         var orders = await getOrderItemsByUserID(userID);
+//         res.status(200).json({data: orders})
+
+//     }catch(error){
+//         res.status(500).json({message: error})
+//     }
+// })
 
 module.exports = router 

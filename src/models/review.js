@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const reviewSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    ref: 'user',
     required: true
   },
   product: {
@@ -24,6 +24,6 @@ const reviewSchema = new mongoose.Schema({
 {timestamps:true}
 );
 
-const ReviewModel = mongoose.model('Review', reviewSchema);
+const ReviewModel = mongoose.model('review', reviewSchema);
 
 module.exports = ReviewModel;

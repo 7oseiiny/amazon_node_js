@@ -38,6 +38,6 @@ adminSchema.pre('save', async function (next){
   next()
 })
 
-const AdminModel = mongoose.model("Admin", adminSchema);
+const AdminModel = mongoose.model("admin", adminSchema);
 
 module.exports = AdminModel;

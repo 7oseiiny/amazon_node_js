@@ -22,16 +22,16 @@ router.post("/signup", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
-  const { adminName, password } = req.body;
+  const { email, password } = req.body;
 
-  if (!adminName || !password) {
+  if (!email || !password) {
     return res
       .status(400)
       .json({ message: "Please provide username or password" });
   }
 
   try {
-    var admin = await adminModel.findOne({ adminName });
+    var admin = await adminModel.findOne({ email });
     if (!admin) {
       return res.status(401).json({ message: "Invalid username or password" });
     }

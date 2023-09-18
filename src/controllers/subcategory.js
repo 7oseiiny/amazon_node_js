@@ -10,7 +10,7 @@ function getAllSubCategories(){
     return SubcategoryModel.find()
 }
 function getSubCategory(id){
-    return SubcategoryModel.findById(id).populate('Category')
+    return SubcategoryModel.findById(id).populate('category')
 }
 function updateSubCategory(id,subCategoryData){
     
