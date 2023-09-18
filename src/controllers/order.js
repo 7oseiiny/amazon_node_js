@@ -7,7 +7,7 @@ function orderDelete(id) {
     return Order_model.deleteOne({ _id: id })
 }
 function getOrderItems(id) {
-    return Order_model.findOne({ _id: id })
+    return Order_model.findOne({ _id: id }).populate('user').populate('products')
 }
 function getOrderItemsByUserID(id) {
     return Order_model.find({ user: id })

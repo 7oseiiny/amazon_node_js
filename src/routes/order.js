@@ -39,7 +39,7 @@ router.delete("/:orderId", async (req, res) => {
     try {
         var order = await orderDelete(orderId);
         if(order.deletedCount > 0){
-            res.status(200).json({ data: order })
+            res.status(200).json({ data: true })
         }else{
             throw new Error("not found")
         }
@@ -58,6 +58,16 @@ router.get("/:orderId", async (req, res) => {
     var id = req.params.orderId
     try {
         var order = await getOrderItems(id);
+        var lang = req.headers.localization
+        if(lang === "en"){
+            let productsT = order.products.map(prd=>{ 
+                return {
+                    id: prd._id,
+                    title: prd.title_en,
+                    description: prd.description_en,
+                }
+            })
+        }
         if (order) {
             res.status(200).json({ data: order })
         } else {
