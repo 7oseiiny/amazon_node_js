@@ -1,4 +1,4 @@
-const { saveProduct, getAllProducts, updateProduct, deleteProduct } = require('../controllers/products');
+const { saveProduct, getAllProducts, updateProduct, deleteProduct ,getproductByid ,updatequantity} = require('../controllers/products');
 const express = require('express');
 const authMiddleware = require('../middlewares/auth');
 const router = express.Router();
@@ -36,6 +36,30 @@ router.delete('/:id',authMiddleware ,async (req, res) => {
         let { id } = req.params;
         let deleteData = await deleteProduct(id);
         res.status(201).json({ data: deleteData })
+    } catch (err) {
+        res.status(500).json({ message: err });
+    }
+})
+
+router.get('/:prodId', async (req, res) => {
+    let { prodId } = req.params;
+
+    try {
+        let products = await getproductByid(prodId);
+        res.status(201).json({ data: products })
+    } catch (err) {
+        res.status(500).json({ message: err });
+    }
+})
+
+router.patch('/updatequantity/:prodId', async (req, res) => {
+    let { prodId } = req.params;
+    let new_q=req.body.quantity
+
+    try {
+
+        let products = await updatequantity(prodId ,new_q);
+        res.status(201).json({ data: products })
     } catch (err) {
         res.status(500).json({ message: err });
     }

@@ -40,6 +40,10 @@ const productSchema = new mongoose.Schema({
     type: mongoose.SchemaTypes.ObjectId,
     ref: 'category',
   },
+  quantity:{
+    type : Number ,  
+    default:0
+  }
 
 },
 {timestamps:true}
