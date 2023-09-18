@@ -4,7 +4,7 @@ var jwt = require('jsonwebtoken');
 var {promisify}=require('util')
 var router=express.Router()
 const userModel = require('../models/user');
-var {getAllcarts,getCartByUserId,addNewCart,addNewProductsInCart,removeProductsInCart} = require('../controllers/cart');
+var {getAllcarts,getCartByUserId,addNewCart,addNewProductsInCart,removeProductsInCart,clearCart} = require('../controllers/cart');
 
 const Cart = require('../models/cart'); // Adjust the path based on your project structure
 
@@ -76,6 +76,17 @@ router.post('/:userId/removeProductsInCart/:productId', async (req, res) => {
          res.status(500).json({ message: err.message })
      }
  });
+
+ router.patch('/:userId/clear', async (req, res) => {
+    var userId = req.params.userId
+     try {
+         var newcart = await clearCart(userId)
+         res.status(201).json({ data: newcart })
+     } catch (err) {
+         res.status(500).json({ message: err.message })
+     }
+ });
+
 module.exports = router;
 
 

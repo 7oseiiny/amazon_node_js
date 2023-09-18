@@ -8,7 +8,9 @@ function getAllcarts (){
 function getCartByUserId(userId){
     return Cart_model.findOne({user:userId}).populate('user').populate('items.product')
 }
-
+function clearCart(userId){
+    return Cart_model.findOneAndUpdate({user:userId},{items:[]}).populate('user').populate('items.product')
+}
 function addNewCart(cart){
 
     return Cart_model.create(cart)
@@ -61,4 +63,4 @@ async function removeProductsInCart(userId,productId ){
 
 
  
-module.exports = {getAllcarts,getCartByUserId,addNewCart,addNewProductsInCart,removeProductsInCart}
+module.exports = {getAllcarts,getCartByUserId,addNewCart,addNewProductsInCart,removeProductsInCart,clearCart}

@@ -5,7 +5,7 @@ var { promisify } = require('util')
 var router = express.Router()
 const userModel = require('../models/user');
 const cart = require('../controllers/cart')
-var { getCartByUserId } = require('../controllers/cart');
+var { getCartByUserId ,clearCart } = require('../controllers/cart');
 var { orderDelete, addOrder, getOrderItems,getOrderItemsByUserID,getAllOrders } = require("../controllers/order")
 
 
@@ -22,7 +22,8 @@ router.post("/:userId/addNewOrder", async (req, res) => {
 
    }else{
     order.products=[...cartt.items]
-    var neworder = await addOrder(order);
+    var neworder = await addOrder(order ,userId);
+    await clearCart(userId)
 
     res.status(201).json({ data:neworder})
 
