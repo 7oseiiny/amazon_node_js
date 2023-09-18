@@ -6,7 +6,7 @@ function getAllcarts (){
 }
 
 function getCartByUserId(userId){
-    return Cart_model.findOne({user:userId}).populate('user')
+    return Cart_model.findOne({user:userId}).populate('user').populate('items.product')
 }
 
 function addNewCart(cart){
@@ -16,9 +16,29 @@ function addNewCart(cart){
 
 
 async function  addNewProductsInCart (userId ,products){
+
     var oldCart=await getCartByUserId(userId)
-    var newcartitems=[...oldCart.items,...products]
-    return Cart_model.findOneAndUpdate({user:userId},{items:newcartitems},{new:true}).populate('user')
+    // console.log(products);
+    console.log("-------------------");
+    // console.log(oldCart.items);
+
+
+    for (const x of products) {
+        for (const y of oldCart.items) {
+            if((x.product) ==y.product._id.toString() ){
+                y.quantity+=x.quantity
+                var newcartitems=[...oldCart.items]
+
+            }
+            else{
+                var newcartitems=[...oldCart.items,...products]
+            }
+           
+        }
+    }
+
+
+    return Cart_model.findOneAndUpdate({user:userId},{items:newcartitems},{new:true}).populate('user').populate('items.product')
 }
 
 async function removeProductsInCart(userId,productId ){
