@@ -7,7 +7,7 @@ const userModel = require('../models/user');
 const cart = require('../controllers/cart')
 var { getCartByUserId ,clearCart } = require('../controllers/cart');
 var { updatequantity } = require('../controllers/products');
-var { orderDelete, addOrder, getOrderItems,getOrderItemsByUserID,getAllOrders } = require("../controllers/order")
+var { orderDelete, addOrder, getOrderItems,getOrderItemsByUserID,getAllOrders,updatetoComplete } = require("../controllers/order")
 
 
 router.post("/:userId/addNewOrder", async (req, res) => {
@@ -114,15 +114,15 @@ router.get("/getByUserId/:userId", async (req, res) => {
     }
 })
 
-// router.patch("/:orderId",async(req,res)=>{
-//     const orderId = req.params.orderId;
-//     try {
-//         var orders = await getOrderItemsByUserID(userID);
-//         res.status(200).json({data: orders})
+router.patch("/:orderId/changetocomplete",async(req,res)=>{
+    const orderId = req.params.orderId;
+    try {
+        var orders = await updatetoComplete(orderId);
+        res.status(200).json({data: orders})
 
-//     }catch(error){
-//         res.status(500).json({message: error})
-//     }
-// })
+    }catch(error){
+        res.status(500).json({message: error})
+    }
+})
 
 module.exports = router 
