@@ -6,6 +6,7 @@ var router = express.Router()
 const userModel = require('../models/user');
 const cart = require('../controllers/cart')
 var { getCartByUserId ,clearCart } = require('../controllers/cart');
+var { updatequantity } = require('../controllers/products');
 var { orderDelete, addOrder, getOrderItems,getOrderItemsByUserID,getAllOrders } = require("../controllers/order")
 
 
@@ -22,7 +23,14 @@ router.post("/:userId/addNewOrder", async (req, res) => {
 
    }else{
     order.products=[...cartt.items]
+    for (const x of order.products) {
+        console.log(x.product._id);
+        console.log(x.quantity);
+        await updatequantity(x.product._id ,x.quantity)///////
+
+    }
     var neworder = await addOrder(order ,userId);
+    ////updatequantity
     await clearCart(userId)
 
     res.status(201).json({ data:neworder})

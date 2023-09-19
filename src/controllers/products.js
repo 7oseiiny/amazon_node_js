@@ -46,4 +46,18 @@ async function deleteProduct(id) {
     }
 }
 
-module.exports = { saveProduct, getAllProducts, updateProduct, deleteProduct }
+function getproductByid(id) {
+
+    return productModel.findOne({_id:id})
+}
+
+async function updatequantity(prodId ,new_q) {
+
+    let q = await getproductByid(prodId)
+    console.log(q.quantity);
+    console.log(new_q);
+    let newq= q.quantity- new_q
+    return productModel.findOneAndUpdate({_id:prodId},{quantity:newq}, { new: true })
+}
+
+module.exports = { saveProduct, getAllProducts, updateProduct, deleteProduct,getproductByid,updatequantity }
