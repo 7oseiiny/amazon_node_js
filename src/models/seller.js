@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require("bcryptjs");
 var sellerSchema= mongoose.Schema(
     {
-        fristName:{
+        firstName:{
             type:String,
             minlength:[2,'min length is 2']
             },
