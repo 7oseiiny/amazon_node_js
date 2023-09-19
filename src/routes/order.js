@@ -24,8 +24,7 @@ router.post("/:userId/addNewOrder", async (req, res) => {
    }else{
     order.products=[...cartt.items]
     for (const x of order.products) {
-        console.log(x.product._id);
-        console.log(x.quantity);
+      
         await updatequantity(x.product._id ,x.quantity)///////
 
     }
