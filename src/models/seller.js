@@ -30,6 +30,10 @@ var sellerSchema= mongoose.Schema(
             minlength:[4,'min length is 4']
 
         },
+        status:{
+            type : String , 
+            default:"unblocked"
+        }
       
        
     }

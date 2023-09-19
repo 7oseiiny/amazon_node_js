@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 var router = express.Router()
 const sellerModel = require('../models/seller');
-var { saveNewSeller, getAllUSellers, deleteSeller, getSellerById, updateSeller } = require('../controllers/seller');
+var { saveNewSeller, getAllUSellers, deleteSeller, getSellerById, updateSeller,updatestatus } = require('../controllers/seller');
 
 
 
@@ -97,6 +97,17 @@ router.delete('/:id', async (req, res) => {
       res.status(404).json({ message: `${sellerId} not found` })
     }
   } catch (err) {
+    res.status(404).json({ message: `${sellerId} not found` })
+  }
+});
+
+router.patch('/:id/updatestatus', async (req, res) => {
+  const sellerId = req.params.id;
+  const status = req.body.status;
+  try {
+    const new_update = await updatestatus(sellerId, status)
+    res.status(200).json({ data: new_update })
+  } catch {
     res.status(404).json({ message: `${sellerId} not found` })
   }
 });
