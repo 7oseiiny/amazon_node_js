@@ -1,6 +1,6 @@
 const Order_model = require('../models/order');
 
-function addOrder(body) {
+    function addOrder(body) {
     return Order_model.create(body)
 }
 function orderDelete(id) {
@@ -12,7 +12,7 @@ function orderDelete(id) {
 
 // }
 function getOrderItems(id) {
-    return Order_model.findOne({ _id: id }).populate('user').populate('products')
+    return Order_model.findOne({ _id: id }).populate('user').populate('products') 
 }
 function getOrderItemsByUserID(id) {
     return Order_model.find({ user: id }).populate('user').populate('products') 

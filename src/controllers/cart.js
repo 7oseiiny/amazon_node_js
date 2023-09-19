@@ -8,7 +8,9 @@ function getAllcarts (){
 function getCartByUserId(userId){
     return Cart_model.findOne({user:userId}).populate('user').populate('items.product')
 }
-
+function clearCart(userId){
+    return Cart_model.findOneAndUpdate({user:userId},{items:[]}).populate('user').populate('items.product')
+}
 function addNewCart(cart){
 
     return Cart_model.create(cart)
@@ -23,6 +25,8 @@ async function  addNewProductsInCart (userId ,products){
     // console.log(oldCart.items);
 
 
+    if(oldCart.items==0){var newcartitems=[...products]}
+    else{
     for (const x of products) {
         for (const y of oldCart.items) {
             if((x.product) ==y.product._id.toString() ){
@@ -35,7 +39,7 @@ async function  addNewProductsInCart (userId ,products){
             }
            
         }
-    }
+    }}
 
 
     return Cart_model.findOneAndUpdate({user:userId},{items:newcartitems},{new:true}).populate('user').populate('items.product')
@@ -59,4 +63,4 @@ async function removeProductsInCart(userId,productId ){
 
 
  
-module.exports = {getAllcarts,getCartByUserId,addNewCart,addNewProductsInCart,removeProductsInCart}
+module.exports = {getAllcarts,getCartByUserId,addNewCart,addNewProductsInCart,removeProductsInCart,clearCart}
