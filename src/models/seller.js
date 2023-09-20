@@ -33,8 +33,12 @@ var sellerSchema= mongoose.Schema(
         status:{
             type : String , 
             default:"unblocked"
+        },
+        category:{
+            type:String,
+            default:"Mobile Phones",
+            enum: ["Books", "Fashion","Video Games"],
         }
-      
        
     }
 )
