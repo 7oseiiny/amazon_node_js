@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require("bcryptjs");
 var sellerSchema= mongoose.Schema(
     {
-        fristName:{
+        firstName:{
             type:String,
             minlength:[2,'min length is 2']
             },
@@ -30,7 +30,15 @@ var sellerSchema= mongoose.Schema(
             minlength:[4,'min length is 4']
 
         },
-      
+        status:{
+            type : String , 
+            default:"unblocked"
+        },
+        category:{
+            type:String,
+            default:"Mobile Phones",
+            enum: ["Books", "Fashion","Video Games"],
+        }
        
     }
 )

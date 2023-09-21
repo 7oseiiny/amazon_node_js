@@ -1,10 +1,7 @@
 const Order_model = require('../models/order');
-var {clearCart} = require('../controllers/cart');
 
-function addOrder(order ,userId) {
-    // console.log(userId);
-
-    return Order_model.create(order)
+    function addOrder(body) {
+    return Order_model.create(body)
 }
 function orderDelete(id) {
     return Order_model.deleteOne({ _id: id })
@@ -23,8 +20,11 @@ function getOrderItemsByUserID(id) {
 function getAllOrders() {
     return Order_model.find().populate('user').populate('products.product')
 }
+function updatetoComplete(orderId) {
+    return Order_model.findOneAndUpdate({_id:orderId},{status:"completed"},{new:true}).populate('user').populate('products.product')
+}
 
 
 
 
-module.exports = { addOrder, orderDelete, getOrderItems, getOrderItemsByUserID , getAllOrders   }
+module.exports = { addOrder, orderDelete, getOrderItems, getOrderItemsByUserID , getAllOrders ,updatetoComplete  }

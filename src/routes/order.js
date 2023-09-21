@@ -7,7 +7,7 @@ const userModel = require('../models/user');
 const cart = require('../controllers/cart')
 var { getCartByUserId ,clearCart } = require('../controllers/cart');
 var { updatequantity } = require('../controllers/products');
-var { orderDelete, addOrder, getOrderItems,getOrderItemsByUserID,getAllOrders } = require("../controllers/order")
+var { orderDelete, addOrder, getOrderItems,getOrderItemsByUserID,getAllOrders,updatetoComplete } = require("../controllers/order")
 
 
 router.post("/:userId/addNewOrder", async (req, res) => {
@@ -24,8 +24,7 @@ router.post("/:userId/addNewOrder", async (req, res) => {
    }else{
     order.products=[...cartt.items]
     for (const x of order.products) {
-        console.log(x.product._id);
-        console.log(x.quantity);
+      
         await updatequantity(x.product._id ,x.quantity)///////
 
     }
@@ -55,7 +54,7 @@ router.delete("/:orderId", async (req, res) => {
     try {
         var order = await orderDelete(orderId);
         if(order.deletedCount > 0){
-            res.status(200).json({ data: order })
+            res.status(200).json({ data: true })
         }else{
             throw new Error("not found")
         }
@@ -74,6 +73,16 @@ router.get("/:orderId", async (req, res) => {
     var id = req.params.orderId
     try {
         var order = await getOrderItems(id);
+        var lang = req.headers.localization
+        if(lang === "en"){
+            let productsT = order.products.map(prd=>{ 
+                return {
+                    id: prd._id,
+                    title: prd.title_en,
+                    description: prd.description_en,
+                }
+            })
+        }
         if (order) {
             res.status(200).json({ data: order })
         } else {
@@ -104,15 +113,15 @@ router.get("/getByUserId/:userId", async (req, res) => {
     }
 })
 
-// router.patch("/:orderId",async(req,res)=>{
-//     const orderId = req.params.orderId;
-//     try {
-//         var orders = await getOrderItemsByUserID(userID);
-//         res.status(200).json({data: orders})
+router.patch("/:orderId/changetocomplete",async(req,res)=>{
+    const orderId = req.params.orderId;
+    try {
+        var orders = await updatetoComplete(orderId);
+        res.status(200).json({data: orders})
 
-//     }catch(error){
-//         res.status(500).json({message: error})
-//     }
-// })
+    }catch(error){
+        res.status(500).json({message: error})
+    }
+})
 
 module.exports = router 
