@@ -4,8 +4,8 @@ var jwt = require('jsonwebtoken');
 var {promisify}=require('util')
 var router=express.Router()
 const userModel = require('../models/user');
-var {saveNewUser,getAllUsers,deleteUser,getUserById,updateUser} = require('../controllers/user');
-var {addNewCart} = require('../controllers/cart');
+var {saveNewUser,getAllUsers,deleteUser,getUserById,updateUser,report} = require('../controllers/user');
+// var {report} = require('../controllers/seller');
 
 
 router.post("/signup", async (req, res) => {
@@ -114,6 +114,17 @@ router.delete("/:id", async(req, res) => {
         }
     } catch (err) { res.status(404).json({ message: `${id} not found` }) }
 })
+router.patch('/:sellerId/report/:userId', async (req, res) => {
+    const sellerId = req.params.sellerId;
+    const userId = req.params.userId;
+    try {
+
+      const newReport = await report(sellerId,userId)
+      res.status(200).json({ data: newReport })
+    } catch {
+      res.status(404).json({ message: `${sellerId} not found` })
+    }
+  });
 
 
 
