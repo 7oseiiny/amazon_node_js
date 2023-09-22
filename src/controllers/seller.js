@@ -27,4 +27,22 @@ function updateSeller(id , seller){
     return sellerModel.findByIdAndUpdate({_id:id},{category:category},{new:true})
  }
 
- module.exports = {saveNewSeller,getAllUSellers,deleteSeller,getSellerById,updateSeller,updatestatus,updatecategory}
+ async function report(sellerId , userId){
+
+    seller =await getSellerById(sellerId)
+    if (seller.usersReport.includes(userId)) {
+        return "Already reported";
+    }
+    else{
+        num = seller.numOfReports + 1
+        if (num>1) {
+            if (seller.status!="blocked") {
+                await updatestatus(sellerId ,"warning")
+            }
+        }
+        newUsersReport=[... seller.usersReport ,userId]
+        return sellerModel.findByIdAndUpdate({_id:sellerId},{numOfReports:num,usersReport:newUsersReport},{new:true})
+    }
+ }
+
+ module.exports = {saveNewSeller,getAllUSellers,deleteSeller,getSellerById,updateSeller,updatestatus,report,updatecategory}

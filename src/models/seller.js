@@ -38,7 +38,16 @@ var sellerSchema= mongoose.Schema(
             type:String,
             default:"Mobile Phones",
             enum: ["Books", "Fashion","Video Games"],
-        }
+        },
+        numOfReports:{
+            type:Number,
+            default:0
+        },
+        usersReport:[{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'user',
+            required: true
+        }]
        
     }
 )

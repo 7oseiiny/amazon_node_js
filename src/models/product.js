@@ -23,10 +23,12 @@ const productSchema = new mongoose.Schema({
     shipping: Number,
   },
   info_en: {
-    type: Object,
+    type: Array,
+    required: false,
   },
   info_ar: {
-    type: Object,
+    type: Array,
+    required: false,
   },
   aboutItem_en: {
     type: Array,
