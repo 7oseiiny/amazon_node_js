@@ -3,7 +3,6 @@ const adminModel = require("../models/admins");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcryptjs');
-const authMiddleware = require("../middlewares/auth");
 const { saveAdmin } = require("../controllers/admin");
 
 router.post("/signup", async (req, res) => {
