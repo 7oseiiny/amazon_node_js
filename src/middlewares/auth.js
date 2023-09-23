@@ -1,16 +1,25 @@
 const jwt = require('jsonwebtoken');
 var {promisify} = require('util')
+const dotenv = require("dotenv")
+dotenv.config({ path: "config.env" })
 
 async function loginAuth (req, res, next){
-  const token = req.header('Authorization');
-  if (!token) {
+  var token = req.headers.authorization;
+  if (!req.headers.authorization) {
     return res.status(401).json({ message: 'You are not authorized, please login first' });
   }
 
   try {
-    const decoded =await promisify(jwt.verify) (token, process.env.SECRET);
-    console.log(decoded);
-    next();
+    var decoded =await promisify(jwt.verify) (req.headers.authorization, process.env.JWT_SECRET);
+
+    if (req.params.userId == decoded.userID) {
+      next();
+    }
+    else{
+      res.status(401).json({ message: 'Invalid token, You are not authorized' });
+
+    }
+    
   } catch (err) {
     res.status(401).json({ message: 'Invalid token, You are not authorized' });
   }

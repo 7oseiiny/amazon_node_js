@@ -71,7 +71,6 @@ router.post('/:userId/removeProductsInCart/:productId', loginAuth,async (req, re
          var newproducts = await removeProductsInCart(userId,productId)
          res.status(201).json({ data: newproducts })
      } catch (err) {
-        console.log("rrrrrr");
          res.status(500).json({ message: err.message })
      }
  });

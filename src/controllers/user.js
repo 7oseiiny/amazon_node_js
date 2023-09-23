@@ -2,6 +2,8 @@ const sellerModel = require('../models/seller');
 const User_model = require('../models/user');
 const bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
+const dotenv = require("dotenv")
+dotenv.config({ path: "config.env" })
 
 const { getSellerById, updatestatus } = require('./seller');
 
@@ -44,7 +46,7 @@ async function report(sellerId , userId){
             return sellerModel.findByIdAndUpdate({_id:sellerId},{usersReport:newUsersReport},{new:true})
         }
 }
- async function userLogin (email ,password ,req){
+ async function userLogin (email ,password ){
     if (!email||!password) {
         return({message:'pls provide email and pass'})
     }
@@ -59,8 +61,7 @@ async function report(sellerId , userId){
                 return({message:'wrong pass'})
             }
             else{
-                var token = jwt.sign({userID:user.id,name:user.username},process.env.SECRET)
-                req.headers.authorization=token
+                var token = jwt.sign({userID:user.id,name:user.username},process.env.JWT_SECRET)
                 return({token:token,status:'success'})
 
             }
