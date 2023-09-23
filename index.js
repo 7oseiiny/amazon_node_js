@@ -1,5 +1,9 @@
 const express =require ('express');
 const mongoose =require ('mongoose');
+const dotenv = require("dotenv")
+dotenv.config({ path: "config.env" })
+const morgan = require('morgan');
+/////////////////////////////////////////
 var middlewares =require ('./src/middlewares/middlewares');
 var userRoutes =require('./src/routes/user');
 var cartRoutes =require('./src/routes/cart');
@@ -20,7 +24,17 @@ app.use(cors(
         origin:'*'
     }
 ))
+
+mongoose.connect(process.env.DB_URI).then((conn) => { console.log(`db connected to ${conn.connection.host}`); }).catch((err) => { console.error(err); process.exit(1) })
+
+if (process.env.NODE_ENV == 'development') {
+    app.use(morgan('dev'))
+}
+
+
 app.use(express.json())
+
+
 
 
 app.use('/product',productRoutes);
@@ -51,6 +65,6 @@ app.use(function(err,req,res,next){
 
 
 
-mongoose.connect("mongodb+srv://admin:itiAmazon@cluster0.ke6bvtv.mongodb.net/amazon").then(()=>{console.log("connect pass");})
-app.listen(3300, _ => { console.log("ok"); })
+const port = process.env.port || 3000
 
+app.listen(port, () => {console.log(`listen${port}`)})
