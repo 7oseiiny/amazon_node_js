@@ -5,7 +5,7 @@ var {promisify}=require('util')
 var router=express.Router()
 const userModel = require('../models/user');
 var {saveNewUser,getAllUsers,deleteUser,getUserById,updateUser,report} = require('../controllers/user');
-// var {report} = require('../controllers/seller');
+var {addNewCart} = require('../controllers/cart');
 
 
 router.post("/signup", async (req, res) => {
