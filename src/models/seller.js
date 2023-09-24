@@ -44,7 +44,11 @@ var sellerSchema= mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: 'user',
             required: true
-        }]
+        }],
+        role:{
+            type:String,
+            default:"seller"
+        }
        
     }
 )

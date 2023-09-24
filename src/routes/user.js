@@ -95,6 +95,8 @@ router.delete("/:id", async(req, res) => {
         }
     } catch (err) { res.status(404).json({ message: `${id} not found` }) }
 })
+
+
 router.patch('/:sellerId/report/:userId', async (req, res) => {
     const sellerId = req.params.sellerId;
     const userId = req.params.userId;

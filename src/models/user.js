@@ -36,7 +36,6 @@ var userSchema= mongoose.Schema(
         role:{
             type:String,
             default:"user",
-            enum: ["user", "admin","seller"],
         },
         address:{
             type:String
