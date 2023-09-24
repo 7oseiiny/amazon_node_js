@@ -1,9 +1,12 @@
 const {saveCategory,getAllCategories,getCategory,updateCategory,deleteCategory,addProductsToCategory} = require('../controllers/category');
 const express = require('express');
+const adminAuth = require('../middlewares/admin_auth');
+const sellerAuth = require('../middlewares/seller_auth');
+const adminOrSellerAuth = require('../middlewares/admin_or_seller_auth');
 
 const router = express.Router();
 
-router.post('/',async (req, res) => {
+router.post('/',adminOrSellerAuth,async (req, res) => {
     try {
         let Category = req.body;
         let newCategory = await saveCategory(Category);

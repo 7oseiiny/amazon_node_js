@@ -61,7 +61,7 @@ async function report(sellerId , userId){
                 return({message:'wrong pass'})
             }
             else{
-                var token = jwt.sign({userID:user.id,name:user.username},process.env.JWT_SECRET)
+                var token = jwt.sign({ id:user.id , name:user.username , role:user.role },process.env.JWT_SECRET)
                 return({token:token,status:'success'})
 
             }

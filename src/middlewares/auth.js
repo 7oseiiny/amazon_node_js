@@ -12,9 +12,10 @@ async function loginAuth (req, res, next){
   try {
     var decoded =await promisify(jwt.verify) (req.headers.authorization, process.env.JWT_SECRET);
 
-    if (req.params.userId == decoded.userID) {
-      next();
-    }
+    if (req.params.userId == decoded.id) {
+   
+          next();
+ }
     else{
       res.status(401).json({ message: 'Invalid token, You are not authorized' });
 

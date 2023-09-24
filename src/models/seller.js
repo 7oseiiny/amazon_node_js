@@ -43,7 +43,8 @@ var sellerSchema= mongoose.Schema(
         usersReport:[{
             type: mongoose.Schema.Types.ObjectId,
             ref: 'user',
-            required: true
+            required: true,
+            default:null
         }],
         role:{
             type:String,

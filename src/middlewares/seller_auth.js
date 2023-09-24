@@ -3,7 +3,7 @@ var {promisify} = require('util')
 const dotenv = require("dotenv")
 dotenv.config({ path: "config.env" })
 
-async function adminAuth (req, res, next){
+async function sellerAuth (req, res, next){
 
   
 
@@ -11,19 +11,19 @@ async function adminAuth (req, res, next){
     var decoded =await promisify(jwt.verify) (req.headers.authorization, process.env.JWT_SECRET);
 
     // if (req.params.userId == decoded.userID) {
-        if (decoded.role=='admin') {
+        if (decoded.role=='seller') {
             next();
     }
     else{
-      res.status(401).json({ message: 'you are not admin' });
+      res.status(401).json({ message: 'you are not seller' });
 
     }
     
   } catch (err) {
-    res.status(401).json({ message: 'catch you are not admin' });
+    res.status(401).json({ message: 'catch you are not seller' });
   }
 };
 
  
 
-module.exports = adminAuth;
+module.exports = sellerAuth;

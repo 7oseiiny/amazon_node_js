@@ -7,10 +7,11 @@ var {getAllcarts,getCartByUserId,addNewCart,addNewProductsInCart,removeProductsI
 
 const Cart = require('../models/cart'); // Adjust the path based on your project structure
 const loginAuth = require('../middlewares/auth');
+const adminAuth = require('../middlewares/admin_auth');
 
 
 
-router.get("/",loginAuth, async (req, res) => {
+router.get("/",adminAuth, async (req, res) => {
 
     try {
         var users = await getAllcarts()
@@ -23,7 +24,6 @@ router.get("/",loginAuth, async (req, res) => {
 // Get user's cart
 router.get('/:userId',loginAuth, async (req, res) => {
     var userId = req.params.userId
-console.log(userId);
     try {
         var cart = await getCartByUserId(userId)
 
