@@ -11,7 +11,7 @@ const adminAuth = require('../middlewares/admin_auth');
 
 
 
-router.get("/",adminAuth, async (req, res) => {
+router.get("/",loginAuth,adminAuth, async (req, res) => {
 
     try {
         var users = await getAllcarts()

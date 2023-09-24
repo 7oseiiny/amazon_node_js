@@ -11,8 +11,8 @@ async function loginAuth (req, res, next){
 
   try {
     var decoded =await promisify(jwt.verify) (req.headers.authorization, process.env.JWT_SECRET);
-
-    if (req.params.userId == decoded.id) {
+    console.log(decoded);
+    if (req.params.userId == decoded.id || decoded.role=="admin"||decoded.role=="seller") {
    
           next();
  }
