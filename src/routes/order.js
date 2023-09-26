@@ -7,10 +7,11 @@ const userModel = require('../models/user');
 const cart = require('../controllers/cart')
 var { getCartByUserId ,clearCart } = require('../controllers/cart');
 var { updatequantity } = require('../controllers/products');
-var { orderDelete, addOrder, getOrderItems,getOrderItemsByUserID,getAllOrders,updatetoComplete } = require("../controllers/order")
+var { orderDelete, addOrder, getOrderItems,getOrderItemsByUserID,getAllOrders,updatetoComplete } = require("../controllers/order");
+const loginAuth = require('../middlewares/auth');
 
 
-router.post("/:userId/addNewOrder", async (req, res) => {
+router.post("/:userId/addNewOrder",loginAuth, async (req, res) => {
     var userId = req.params.userId
     var order = req.body
     order.user=userId
