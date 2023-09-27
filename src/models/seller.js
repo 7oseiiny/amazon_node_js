@@ -32,8 +32,8 @@ var sellerSchema= mongoose.Schema(
         },
         status:{
             type : String , 
-            default:"unblocked",
-            enum: ["blocked", "warning","unblocked"],
+            default:"Active",
+            enum: ["blocked", "warning","Active"],
         },
         category:{
             type:String,
