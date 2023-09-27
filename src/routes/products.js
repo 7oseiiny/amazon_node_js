@@ -1,6 +1,5 @@
 const { saveProduct, getAllProducts, updateProduct, deleteProduct ,getproductByid ,updatequantity} = require('../controllers/products');
 const express = require('express');
-const authMiddleware = require('../middlewares/auth');
 const router = express.Router();
 
 router.post('/',async (req, res) => {

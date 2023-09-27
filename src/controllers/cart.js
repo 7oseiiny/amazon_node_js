@@ -47,13 +47,22 @@ async function  addNewProductsInCart (userId ,products){
 
 async function removeProductsInCart(userId,productId ){
     var oldCart=await getCartByUserId(userId)
-    console.log(oldCart);
-    for (let i = 0; i < oldCart.items.length; i++) {
-        if (oldCart.items[i].product == productId) {
-            oldCart.items.splice(i, 1);
+    // console.log(oldCart.items);
+    // for (let i = 0; i < oldCart.items.length; i++) {
+    //     if (oldCart.items[i].product == productId) {
+    //         oldCart.items.splice(i, 1);
+    //     }
+    // }
+    let index=0
+    for (const i of oldCart.items) {
+        console.log(i.product._id.toString());
+        console.log(productId);
+        if (i.product._id.toString() == productId) {
+            oldCart.items.splice(index, 1)
         }
+        index++
     }
-    console.log(oldCart);
+    // console.log(oldCart);
     var newcartitems =[...oldCart.items]
 
     return Cart_model.findOneAndUpdate({user:userId},{items:newcartitems},{new:true}).populate('user')

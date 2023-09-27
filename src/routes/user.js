@@ -1,10 +1,7 @@
 const express =require('express')
-const bcrypt = require('bcryptjs');
-var jwt = require('jsonwebtoken');
 var {promisify}=require('util')
 var router=express.Router()
-const userModel = require('../models/user');
-var {saveNewUser,getAllUsers,deleteUser,getUserById,updateUser} = require('../controllers/user');
+var {saveNewUser,getAllUsers,deleteUser,getUserById,updateUser,report ,userLogin} = require('../controllers/user');
 var {addNewCart} = require('../controllers/cart');
 
 
@@ -25,32 +22,16 @@ router.post("/signup", async (req, res) => {
 
 router.post("/login", async (req, res) => {
     var{email,password}=req.body
+    try {
 
-    if (!email||!password) {
-        res.send({message:'pls provide email and pass'})
+      var login=await userLogin(email ,password, req)
+        res.status(201).json({ data: login })
+    } catch (err) {
+        res.status(500).json({ message: err.message })
     }
-    else{
-        var user =await userModel.findOne({email:email})
-        if (!user) {
-            res.send({message:'invalid email or pass'})
-        }
-        else{
-            var isvalid =await bcrypt.compare(password,user.password)
-            if (!isvalid) {
-                res.send({message:'wrong pass'})
-            }
-            else{
-                var token = jwt.sign({userID:user.id,name:user.username},process.env.SECRET)
-                // var decoded= await promisify(jwt.verify) (token,process.env.SECRET)
-                // console.log(decoded);
-                console.log(req.headers.authorization);
-                req.headers.authorization=token
-                console.log(req.headers.authorization);
-                res.send({token:token,status:'success'+process.env.SECRET})
 
-            }
-        }
-    }
+
+   
 })
 
 
@@ -114,6 +95,19 @@ router.delete("/:id", async(req, res) => {
         }
     } catch (err) { res.status(404).json({ message: `${id} not found` }) }
 })
+
+
+router.patch('/:sellerId/report/:userId', async (req, res) => {
+    const sellerId = req.params.sellerId;
+    const userId = req.params.userId;
+    try {
+
+      const newReport = await report(sellerId,userId)
+      res.status(200).json({ data: newReport })
+    } catch {
+      res.status(404).json({ message: `${sellerId} not found` })
+    }
+  });
 
 
 

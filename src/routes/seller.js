@@ -1,9 +1,11 @@
 const express = require('express')
 const bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
+const dotenv = require("dotenv")
+dotenv.config({ path: "config.env" })
 var router = express.Router()
 const sellerModel = require('../models/seller');
-var { saveNewSeller, getAllUSellers, deleteSeller, getSellerById, updateSeller,updatestatus } = require('../controllers/seller');
+var { saveNewSeller, getAllUSellers, deleteSeller, getSellerById, updateSeller,updatestatus  } = require('../controllers/seller');
 
 
 
@@ -36,7 +38,7 @@ router.post("/login", async (req, res) => {
         res.send({ message: 'wrong pass' })
       }
       else {
-        var token = jwt.sign({ sellerID: seller.id, name: seller.username }, process.env.SECRET)
+        var token = jwt.sign({ id: seller.id, name: seller.username , role:seller.role }, process.env.JWT_SECRET)
         req.headers.authorization = token
         // console.log(req.headers.authorization);
         res.send({ token: token, status: 'success' + process.env.SECRET })
@@ -111,4 +113,6 @@ router.patch('/:id/updatestatus', async (req, res) => {
     res.status(404).json({ message: `${sellerId} not found` })
   }
 });
+
+
 module.exports = router 

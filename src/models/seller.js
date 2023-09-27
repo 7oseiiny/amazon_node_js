@@ -32,12 +32,24 @@ var sellerSchema= mongoose.Schema(
         },
         status:{
             type : String , 
-            default:"unblocked"
+            default:"unblocked",
+            enum: ["blocked", "warning","unblocked"],
         },
         category:{
             type:String,
-            default:"Mobile Phones",
+            default:"Fashion",
             enum: ["Books", "Fashion","Video Games"],
+        },
+       
+        usersReport:[{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'user',
+            required: true,
+            default:null
+        }],
+        role:{
+            type:String,
+            default:"seller"
         }
        
     }

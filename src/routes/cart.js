@@ -3,14 +3,15 @@ const bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 var {promisify}=require('util')
 var router=express.Router()
-const userModel = require('../models/user');
 var {getAllcarts,getCartByUserId,addNewCart,addNewProductsInCart,removeProductsInCart,clearCart} = require('../controllers/cart');
 
 const Cart = require('../models/cart'); // Adjust the path based on your project structure
+const loginAuth = require('../middlewares/auth');
+const adminAuth = require('../middlewares/admin_auth');
 
 
 
-router.get("/", async (req, res) => {
+router.get("/",loginAuth,adminAuth, async (req, res) => {
 
     try {
         var users = await getAllcarts()
@@ -21,9 +22,8 @@ router.get("/", async (req, res) => {
 })
 
 // Get user's cart
-router.get('/:userId', async (req, res) => {
+router.get('/:userId',loginAuth, async (req, res) => {
     var userId = req.params.userId
-console.log(userId);
     try {
         var cart = await getCartByUserId(userId)
 
@@ -38,7 +38,7 @@ console.log(userId);
 });
 
 // create new cart for user
-router.post('/:userId/newCart', async (req, res) => {
+router.post('/:userId/newCart',loginAuth, async (req, res) => {
     var userId = req.params.userId
     var cart = req.body
     cart.user=userId
@@ -51,7 +51,7 @@ router.post('/:userId/newCart', async (req, res) => {
 });
 
 // add new product in item in cart
-router.post('/:userId/addProductInCart', async (req, res) => {
+router.post('/:userId/addProductInCart',loginAuth, async (req, res) => {
     var userId = req.params.userId
     var products = req.body.items
      try {
@@ -63,21 +63,19 @@ router.post('/:userId/addProductInCart', async (req, res) => {
  });
  ////////
 // remove new product in item in cart
-router.post('/:userId/removeProductsInCart/:productId', async (req, res) => {
+router.post('/:userId/removeProductsInCart/:productId', loginAuth,async (req, res) => {
     var userId = req.params.userId
     var productId = req.params.productId
-    console.log(userId);
-    console.log(productId);
+
      try {
          var newproducts = await removeProductsInCart(userId,productId)
          res.status(201).json({ data: newproducts })
      } catch (err) {
-        console.log("rrrrrr");
          res.status(500).json({ message: err.message })
      }
  });
 
- router.patch('/:userId/clear', async (req, res) => {
+ router.patch('/:userId/clear',loginAuth, async (req, res) => {
     var userId = req.params.userId
      try {
          var newcart = await clearCart(userId)
