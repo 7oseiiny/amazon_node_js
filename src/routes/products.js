@@ -5,6 +5,9 @@ const router = express.Router();
 router.post('/',async (req, res) => {
     try {
         let product = req.body;
+        if (!product.categoryId || !product.categoryId._id) {
+            product.categoryId = null;
+        }
         let newProduct = await saveProduct(product);
         res.status(201).json({ data: newProduct })
     } catch (err) {
@@ -27,7 +30,8 @@ router.patch('/:id' ,async (req, res) => {
         let updateData = await updateProduct(id, newData);
         res.status(201).json({ data: updateData })
     } catch (err) {
-        res.status(500).json({ message: err });
+        console.log(err);
+        res.status(500).json({ "message": err });
     }
 })
 router.delete('/:id',async (req, res) => {
@@ -36,7 +40,7 @@ router.delete('/:id',async (req, res) => {
         let deleteData = await deleteProduct(id);
         res.status(201).json({ data: deleteData })
     } catch (err) {
-        res.status(500).json({ message: err });
+        res.status(500).json({ "message": err });
     }
 })
 
@@ -47,7 +51,7 @@ router.get('/:prodId', async (req, res) => {
         let products = await getproductByid(prodId);
         res.status(201).json({ data: products })
     } catch (err) {
-        res.status(500).json({ message: err });
+        res.status(500).json({ "message": err });
     }
 })
 
@@ -60,7 +64,7 @@ router.patch('/updatequantity/:prodId', async (req, res) => {
         let products = await updatequantity(prodId ,new_q);
         res.status(201).json({ data: products })
     } catch (err) {
-        res.status(500).json({ message: err });
+        res.status(500).json({ "message": err });
     }
 })
 module.exports=router;
