@@ -36,6 +36,10 @@ app.use(express.json())
 
 
 
+app.use('/',function(req,res,next){
+    res.send({message:"wellcom to api team 5"})
+    next();
+});
 
 app.use('/product',productRoutes);
 app.use('/category',categoryRoutes);
