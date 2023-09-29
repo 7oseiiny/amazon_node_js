@@ -30,7 +30,7 @@ var userSchema= mongoose.Schema(
         password:{
             type:String,
             require:true,
-            minlength:[10,'min length is 10']
+            minlength:[8,'min length is 8']
 
         },
         role:{
