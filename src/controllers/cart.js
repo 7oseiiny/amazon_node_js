@@ -45,6 +45,30 @@ async function  addNewProductsInCart (userId ,products){
     return Cart_model.findOneAndUpdate({user:userId},{items:newcartitems},{new:true}).populate('user').populate('items.product')
 }
 
+
+async function  updateQuantity(userId,productId,newquantity){
+
+    var oldCart=await getCartByUserId(userId)
+    console.log("-------------------");
+
+
+        for (const x of oldCart.items) {
+        
+            if (x.product._id.toString()==productId) {
+                x.quantity=newquantity
+                var newcartitems=[...oldCart.items]
+
+            }
+           
+           
+        }
+    
+
+
+    return Cart_model.findOneAndUpdate({user:userId},{items:newcartitems},{new:true}).populate('user').populate('items.product')
+}
+
+
 async function removeProductsInCart(userId,productId ){
     var oldCart=await getCartByUserId(userId)
     // console.log(oldCart.items);
@@ -72,4 +96,4 @@ async function removeProductsInCart(userId,productId ){
 
 
  
-module.exports = {getAllcarts,getCartByUserId,addNewCart,addNewProductsInCart,removeProductsInCart,clearCart}
+module.exports = {getAllcarts,getCartByUserId,addNewCart,addNewProductsInCart,removeProductsInCart,clearCart,updateQuantity}

@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 var {promisify}=require('util')
 var router=express.Router()
-var {getAllcarts,getCartByUserId,addNewCart,addNewProductsInCart,removeProductsInCart,clearCart} = require('../controllers/cart');
+var {getAllcarts,getCartByUserId,addNewCart,addNewProductsInCart,removeProductsInCart,clearCart , updateQuantity} = require('../controllers/cart');
 
 const Cart = require('../models/cart'); // Adjust the path based on your project structure
 const loginAuth = require('../middlewares/auth');
@@ -79,6 +79,18 @@ router.post('/:userId/removeProductsInCart/:productId', loginAuth,async (req, re
     var userId = req.params.userId
      try {
          var newcart = await clearCart(userId)
+         res.status(201).json({ data: newcart })
+     } catch (err) {
+         res.status(500).json({ message: err.message })
+     }
+ });
+
+ router.patch('/:userId/updatequantity/:productId/:newquantity',loginAuth, async (req, res) => {
+    var userId = req.params.userId
+    var productId = req.params.productId
+    var newquantity = req.params.newquantity
+     try {
+         var newcart = await updateQuantity(userId,productId,newquantity)
          res.status(201).json({ data: newcart })
      } catch (err) {
          res.status(500).json({ message: err.message })
