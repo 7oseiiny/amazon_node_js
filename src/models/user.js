@@ -3,19 +3,19 @@ const bcrypt = require('bcryptjs');
 
 var userSchema= mongoose.Schema(
     {
-        fristName:{
+        name:{
             type:String,
             require:true,
             minlength:[2,'min length is 2']
             },
         lastName:{
             type:String,
-            require:true,
+            require:false,
             minlength:[2,'min length is 2']
         },
         userName:{
             type:String,
-            require:true,
+            require:false,
             unique:true,
             minlength:[5,'min length is 5'],
             
@@ -30,7 +30,7 @@ var userSchema= mongoose.Schema(
         password:{
             type:String,
             require:true,
-            minlength:[8,'min length is 8']
+            minlength:[6,'min length is 6']
 
         },
         role:{
