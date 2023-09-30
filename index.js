@@ -9,6 +9,7 @@ var userRoutes =require('./src/routes/user');
 var cartRoutes =require('./src/routes/cart');
 const productRoutes=require('./src/routes/products');
 const categoryRoutes=require('./src/routes/category');
+const searchRoutes=require('./src/routes/search');
 const reviewRoutes=require('./src/routes/review');
 const adminRoutes = require('./src/routes/admin');
 const orderRoutes = require('./src/routes/order');
@@ -39,6 +40,7 @@ app.use(express.json())
 
 app.use('/product',productRoutes);
 app.use('/category',categoryRoutes);
+app.use('/search',searchRoutes);
 
 app.use('/user',userRoutes);
 app.use('/cart',cartRoutes);

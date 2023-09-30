@@ -38,7 +38,7 @@ router.get("/:id", async (req, res) => {
       return res.status(400).json({ message: "Invalid ObjectId" });
     }
 
-    const foundCategory = await Category.findOne({ _id: id });
+    const foundCategory = await getCategory(id);
 
     if (foundCategory) {
       res.status(200).json({ data: foundCategory });

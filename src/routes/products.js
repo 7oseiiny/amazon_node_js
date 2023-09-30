@@ -5,9 +5,9 @@ const router = express.Router();
 router.post('/',async (req, res) => {
     try {
         let product = req.body;
-        if (!product.categoryId || !product.categoryId._id) {
-            product.categoryId = null;
-        }
+        // if (!product.categoryId || !product.categoryId._id) {
+        //     product.categoryId = null;
+        // }
         let newProduct = await saveProduct(product);
         res.status(201).json({ data: newProduct })
     } catch (err) {

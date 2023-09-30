@@ -21,57 +21,73 @@ async function saveProduct(product) {
 function getAllProducts() {
   return productModel.find().populate("categoryId");
 }
-async function updateProduct(id, productData) {
-    let oldProduct = await productModel.findById(id);
-    let newProduct = productData;
-    let newProductCategoryId = newProduct.categoryId;
-    let oldCategory = await CategoryModel.findById(oldProduct.categoryId);
-    let category = await CategoryModel.findById(newProductCategoryId);
-    if (!oldProduct) {
-      return null;
-    }
-    //get the old category to delete the product form it
-    //delete product from it's old category and put it in the new one
-    if (oldCategory) {
-      oldCategory.products = oldCategory.products.filter(
-        (productId) =>
-          productId && productId.toString() !== oldProduct._id.toString()
-      );
-      await oldCategory.save();
-    }
-    if (oldProduct.categoryId == newProductCategoryId) {
-      if (category) {
-        category.products.push(id);
-        console.log(
-          "category from oldProduct.categoryId == newProductCategoryId Check",
-          category
-        );
-        await category.save();
-      }
-    } else if (
-      oldProduct.categoryId !== newProductCategoryId ||
-      oldProduct.categoryId == null
-    ) {
-      //search for the new category by the new id and put the product in it.
-  
-      if (category) {
-        category.products.push(id);
-        console.log(
-          "category from oldProduct.categoryId !== newProductCategoryId Check",
-          category
-        );
-       
-        await category.save();
-      }
-      newProduct.categoryId = newProductCategoryId;
-    }
-    const updateProduct = await productModel
-      .findByIdAndUpdate(id, newProduct, { new: true })
-      .populate("categoryId");
-    return updateProduct;
+async function getLessThanPrice(price) {
+  try {
+    const result = await productModel.find({ "price.new": { $lt: price } });
+    return result;
+  } catch (err) {
+    console.error("Error ", err);
+    return null;
   }
-  
-  
+}
+async function getGreaterThanPrice(price) {
+  try {
+    const result = await productModel.find({ "price.new": { $gt: price } });
+    return result;
+  } catch (err) {
+    console.error("Error ", err);
+    return null;
+  }
+}
+async function updateProduct(id, productData) {
+  let oldProduct = await productModel.findById(id);
+  let newProduct = productData;
+  let newProductCategoryId = newProduct.categoryId;
+  let oldCategory = await CategoryModel.findById(oldProduct.categoryId);
+  let category = await CategoryModel.findById(newProductCategoryId);
+  if (!oldProduct) {
+    return null;
+  }
+  //get the old category to delete the product form it
+  //delete product from it's old category and put it in the new one
+  if (oldCategory) {
+    oldCategory.products = oldCategory.products.filter(
+      (productId) =>
+        productId && productId.toString() !== oldProduct._id.toString()
+    );
+    await oldCategory.save();
+  }
+  if (oldProduct.categoryId == newProductCategoryId) {
+    if (category) {
+      category.products.push(id);
+      console.log(
+        "category from oldProduct.categoryId == newProductCategoryId Check",
+        category
+      );
+      await category.save();
+    }
+  } else if (
+    oldProduct.categoryId !== newProductCategoryId ||
+    oldProduct.categoryId == null
+  ) {
+    //search for the new category by the new id and put the product in it.
+
+    if (category) {
+      category.products.push(id);
+      console.log(
+        "category from oldProduct.categoryId !== newProductCategoryId Check",
+        category
+      );
+
+      await category.save();
+    }
+    newProduct.categoryId = newProductCategoryId;
+  }
+  const updateProduct = await productModel
+    .findByIdAndUpdate(id, newProduct, { new: true })
+    .populate("categoryId");
+  return updateProduct;
+}
 
 async function deleteProduct(id) {
   try {
@@ -119,4 +135,6 @@ module.exports = {
   deleteProduct,
   getproductByid,
   updatequantity,
+  getLessThanPrice,
+  getGreaterThanPrice
 };
