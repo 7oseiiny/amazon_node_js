@@ -5,37 +5,36 @@ var { promisify } = require('util')
 var router = express.Router()
 const userModel = require('../models/user');
 const cart = require('../controllers/cart')
-var { getCartByUserId ,clearCart } = require('../controllers/cart');
+var { getCartByUserId, clearCart } = require('../controllers/cart');
 var { updatequantity } = require('../controllers/products');
-var { orderDelete, addOrder, getOrderItems,getOrderItemsByUserID,getAllOrders,updatetoComplete } = require("../controllers/order");
+var { orderDelete, addOrder, getOrderItems, getOrderItemsByUserID, getAllOrders, updatetoComplete } = require("../controllers/order");
 const loginAuth = require('../middlewares/auth');
 
 
-router.post("/:userId/addNewOrder",loginAuth, async (req, res) => {
+router.post("/:userId/addNewOrder", loginAuth, async (req, res) => {
     var userId = req.params.userId
     var order = req.body
-    order.user=userId
+    order.user = userId
 
 
     var cartt = await getCartByUserId(userId)
-// console.log(cartt.items);
-   if (cartt.items.length==0) {
-    res.status(500).json({ data:"card is  empty" })
+    if (cartt.items.length == 0) {
+        res.status(500).json({ data: "card is  empty" })
 
-   }else{
-    order.products=[...cartt.items]
-    for (const x of order.products) {
-      
-        await updatequantity(x.product._id ,x.quantity)///////
+    } else {
+        order.products = [...cartt.items]
+        for (const x of order.products) {
+
+            await updatequantity(x.product._id, x.quantity)///////
+
+        }
+        var neworder = await addOrder(order, userId);
+        ////updatequantity
+        await clearCart(userId)
+
+        res.status(201).json({ data: neworder })
 
     }
-    var neworder = await addOrder(order ,userId);
-    ////updatequantity
-    await clearCart(userId)
-
-    res.status(201).json({ data:neworder})
-
-   }
 
 })
 
@@ -54,15 +53,15 @@ router.delete("/:orderId", async (req, res) => {
     var { orderId } = req.params
     try {
         var order = await orderDelete(orderId);
-        if(order.deletedCount > 0){
+        if (order.deletedCount > 0) {
             res.status(200).json({ data: true })
-        }else{
+        } else {
             throw new Error("not found")
         }
     } catch (err) {
-        if(err.message === "not found"){
-            res.status(404).json({message: "Order not found, make sure of the correct id", deleted: false})
-        }else{
+        if (err.message === "not found") {
+            res.status(404).json({ message: "Order not found, make sure of the correct id", deleted: false })
+        } else {
             res.status(500).json({ message: err })
         }
 
@@ -75,8 +74,8 @@ router.get("/:orderId", async (req, res) => {
     try {
         var order = await getOrderItems(id);
         var lang = req.headers.localization
-        if(lang === "en"){
-            let productsT = order.products.map(prd=>{ 
+        if (lang === "en") {
+            let productsT = order.products.map(prd => {
                 return {
                     id: prd._id,
                     title: prd.title_en,
@@ -107,21 +106,21 @@ router.get("/getByUserId/:userId", async (req, res) => {
     const userID = req.params.userId;
     try {
         var orders = await getOrderItemsByUserID(userID);
-        res.status(200).json({data: orders})
+        res.status(200).json({ data: orders })
 
-    }catch(error){
-        res.status(500).json({message: error})
+    } catch (error) {
+        res.status(500).json({ message: error })
     }
 })
 
-router.patch("/:orderId/changetocomplete",async(req,res)=>{
+router.patch("/:orderId/changetocomplete", async (req, res) => {
     const orderId = req.params.orderId;
     try {
         var orders = await updatetoComplete(orderId);
-        res.status(200).json({data: orders})
+        res.status(200).json({ data: orders })
 
-    }catch(error){
-        res.status(500).json({message: error})
+    } catch (error) {
+        res.status(500).json({ message: error })
     }
 })
 
