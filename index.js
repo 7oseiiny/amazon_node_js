@@ -3,6 +3,8 @@ const mongoose =require ('mongoose');
 const dotenv = require("dotenv")
 dotenv.config({ path: "config.env" })
 const morgan = require('morgan');
+const multer  = require('multer')
+
 /////////////////////////////////////////
 var middlewares =require ('./src/middlewares/middlewares');
 var userRoutes =require('./src/routes/user');
