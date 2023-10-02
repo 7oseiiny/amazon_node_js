@@ -4,6 +4,7 @@ const {
   getCategory,
   updateCategory,
   deleteCategory,
+  getCategoryByName,
   addProductsToCategory,
 } = require("../controllers/category");
 const express = require("express");
@@ -67,6 +68,16 @@ router.delete("/:id", async (req, res) => {
     let { id } = req.params;
     let deleteData = await deleteCategory(id);
     res.status(201).json({ data: deleteData });
+  } catch (err) {
+    res.status(500).json({ message: err });
+  }
+});
+
+router.get("/getbyname/:name", async (req, res) => {
+  let { name } = req.params;
+  try {
+    let category = await getCategoryByName(name);
+    res.status(201).json({ data: category });
   } catch (err) {
     res.status(500).json({ message: err });
   }

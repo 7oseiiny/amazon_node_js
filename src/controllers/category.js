@@ -16,7 +16,7 @@ function updateCategory(id, CategoryData) {
 function deleteCategory(id) {
   return CategoryModel.findByIdAndDelete(id);
 }
-async function catLessThanPrice(price,catId) {
+async function catLessThanPrice(price, catId) {
   try {
     const result = await productModel.find({
       categoryId: catId,
@@ -28,7 +28,7 @@ async function catLessThanPrice(price,catId) {
     return null;
   }
 }
-async function catGreaterThanPrice(price,catId) {
+async function catGreaterThanPrice(price, catId) {
   try {
     const result = await productModel.find({
       categoryId: catId,
@@ -40,6 +40,16 @@ async function catGreaterThanPrice(price,catId) {
     return null;
   }
 }
+async function getCategoryByName(name) {
+  try {
+    return CategoryModel.findOne({name_en:name}).populate("products");
+
+  }
+  catch (err) {
+    return err;
+  }
+}
+
 
 module.exports = {
   saveCategory,
@@ -49,4 +59,5 @@ module.exports = {
   deleteCategory,
   catLessThanPrice,
   catGreaterThanPrice,
+  getCategoryByName,
 };
