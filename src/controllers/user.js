@@ -48,14 +48,14 @@ async function report(sellerId , userId){
 }
  async function userLogin (email ,password ){
     if (!email||!password) {
-        res
+      return  res
         .status(400)
         .json({ message: "Please provide username or password" });
     }
     else{
         var user =await User_model.findOne({email:email})
         if (!user) {
-            res.status(401).json({ message: "Invalid username or password" });
+           return res.status(401).json({ message: "Invalid username or password" });
         }
         else{
             var isvalid =await bcrypt.compare(password,user.password)
