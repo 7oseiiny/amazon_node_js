@@ -58,7 +58,7 @@ async function report(sellerId , userId){
         else{
             var isvalid =await bcrypt.compare(password,user.password)
             if (!isvalid) {
-                return({message:'wrong pass'})
+                return res.status(401).json({ message: "Invalid username or password" });
             }
             else{
                 var token = jwt.sign({ id:user.id , name:user.username , role:user.role },process.env.JWT_SECRET)
