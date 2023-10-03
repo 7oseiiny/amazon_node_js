@@ -3,6 +3,27 @@ var {promisify}=require('util')
 var router=express.Router()
 var {saveNewUser,getAllUsers,deleteUser,getUserById,updateUser,report ,userLogin} = require('../controllers/user');
 var {addNewCart} = require('../controllers/cart');
+const cors = require("cors");
+const multer  = require('multer');
+const path = require("path");
+
+router.use(cors());
+const fileStorageEngine = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null,path.join(__dirname, "../../image")); //important this is a direct path fron our current file to storage location
+    },
+    filename: (req, file, cb) => {
+      cb(null, file.originalname);
+    },
+  });
+  const upload = multer({ storage: fileStorageEngine});
+
+// Single File Route Handler
+router.post("/single", upload.single("image"), (req, res) => {
+  console.log(req.file);
+  res.send("Single FIle upload success");
+});
+
 
 
 router.post("/signup", async (req, res) => {
