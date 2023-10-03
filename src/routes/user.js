@@ -17,11 +17,14 @@ const fileStorageEngine = multer.diskStorage({
     },
   });
   const upload = multer({ storage: fileStorageEngine});
+
 // Single File Route Handler
 router.post("/single", upload.single("image"), (req, res) => {
   console.log(req.file);
   res.send("Single FIle upload success");
 });
+
+
 
 router.post("/signup", async (req, res) => {
     var user = req.body

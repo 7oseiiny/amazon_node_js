@@ -53,7 +53,7 @@ app.use('/seller',sellerRoutes);
 app.use('/favorite',FavRoutes);
 app.use('/order',orderRoutes);
 app.use('/subcategory',subcategoryRoutes);
-
+app.use('/images', express.static('./image'));
 app.use('*',function(req,res,next){
     res.send({message:"not found"})
     next();
