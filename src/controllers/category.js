@@ -51,7 +51,11 @@ async function catGreaterThanPrice(price, catId) {
 
 async function getCategoryByName(name, pageNumber, productsPerPage) {
   try {
-    const list = await CategoryModel.findOne({ name_en: name })
+    const listlen = await CategoryModel.findOne({ name_en: name })
+    let pages=Math.ceil(listlen.products.length/productsPerPage)
+
+    let list = await CategoryModel.findOne({ name_en: name })
+   
       .populate({
         path: "products",
         options: {
@@ -60,8 +64,10 @@ async function getCategoryByName(name, pageNumber, productsPerPage) {
         },
       })
       .exec();
+      list['pages']=pages
+      console.log(list);
 
-    return list;
+    return {data:list ,pages};
   } catch (err) {
     throw err;
   }
