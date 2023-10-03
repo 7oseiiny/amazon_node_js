@@ -75,8 +75,11 @@ router.delete("/:id", async (req, res) => {
 
 router.get("/getbyname/:name", async (req, res) => {
   let { name } = req.params;
+  const pageNumber = req.query.pageNumber || 1;
+  const productsPerPage = 12
+  console.log(name);
   try {
-    let category = await getCategoryByName(name);
+    let category = await getCategoryByName(name,pageNumber,productsPerPage);
     res.status(201).json({ data: category });
   } catch (err) {
     res.status(500).json({ message: err });
