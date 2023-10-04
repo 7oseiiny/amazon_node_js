@@ -40,13 +40,36 @@ async function catGreaterThanPrice(price, catId) {
     return null;
   }
 }
-async function getCategoryByName(name) {
-  try {
-    return CategoryModel.findOne({name_en:name}).populate("products");
+// async function getCategoryByName(name) {
+//   try {
+//     return CategoryModel.findOne({name_en:name}).populate("products");
+//   }
+//   catch (err) {
+//     return err;
+//   }
+// }
 
-  }
-  catch (err) {
-    return err;
+async function getCategoryByName(name, pageNumber, productsPerPage) {
+  try {
+    const listlen = await CategoryModel.findOne({ name_en: name })
+    let pages=Math.ceil(listlen.products.length/productsPerPage)
+
+    let list = await CategoryModel.findOne({ name_en: name })
+   
+      .populate({
+        path: "products",
+        options: {
+          skip: (pageNumber - 1) * productsPerPage,
+          limit: productsPerPage,
+        },
+      })
+      .exec();
+      list['pages']=pages
+      console.log(list);
+
+    return {data:list ,pages};
+  } catch (err) {
+    throw err;
   }
 }
 
