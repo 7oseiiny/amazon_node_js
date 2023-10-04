@@ -62,7 +62,7 @@ async function getCategoryByName(name, pageNumber, productsPerPage) {
           skip: (pageNumber - 1) * productsPerPage,
           limit: productsPerPage,
         },
-      })
+      },)
       .exec();
       list['pages']=pages
       console.log(list);

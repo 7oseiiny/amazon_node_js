@@ -49,7 +49,7 @@ router.post("/login", async (req, res) => {
     try {
 
       var login=await userLogin(email ,password, req)
-        res.status(201).json({ data: login })
+        res.status(201).json({ data: login  })
     } catch (err) {
         res.status(500).json({ message: err.message })
     }

@@ -64,7 +64,7 @@ async function report(sellerId , userId){
             }
             else{
                 var token = jwt.sign({ id:user.id , name:user.username , role:user.role },process.env.JWT_SECRET)
-                return({token:token,status:'success'})
+                return({token:token,status:'success' ,userId:user.id})
 
             }
         }
