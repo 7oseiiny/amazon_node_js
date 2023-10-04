@@ -3,6 +3,8 @@ const mongoose =require ('mongoose');
 const dotenv = require("dotenv")
 dotenv.config({ path: "config.env" })
 const morgan = require('morgan');
+const multer  = require('multer')
+
 /////////////////////////////////////////
 var middlewares =require ('./src/middlewares/middlewares');
 var userRoutes =require('./src/routes/user');
@@ -53,7 +55,7 @@ app.use('/seller',sellerRoutes);
 app.use('/favorite',FavRoutes);
 app.use('/order',orderRoutes);
 app.use('/subcategory',subcategoryRoutes);
-
+app.use('/images', express.static('./image'));
 app.use('*',function(req,res,next){
     res.send({message:"not found"})
     next();

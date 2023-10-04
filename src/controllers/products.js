@@ -113,7 +113,7 @@ async function deleteProduct(id) {
 }
 
 function getproductByid(id) {
-  return productModel.findOne({ _id: id });
+  return productModel.findOne({ _id: id }).populate('categoryId');
 }
 
 async function updatequantity(prodId, new_q) {

@@ -26,23 +26,21 @@ function updateUser(id, user) {
 }
 
 async function report(sellerId, userId) {
-  seller = await getSellerById(sellerId);
+  let seller = await getSellerById(sellerId);
 
-  if (seller.usersReport.includes(userId)) {
-    return "Already reported";
-  } else {
-    if (seller.usersReport.length + 1 > 1) {
-      if (seller.status != "blocked") {
-        await updatestatus(sellerId, "warning");
-      }
-    }
-    newUsersReport = [...seller.usersReport, userId];
-    return sellerModel.findByIdAndUpdate(
-      { _id: sellerId },
-      { usersReport: newUsersReport },
-      { new: true }
-    );
-  }
+        if (seller.usersReport.includes(userId)) {
+            return "Already reported";
+        }
+        else{
+            if (seller.usersReport.length+1>1) {
+                if (seller.status!="blocked") {
+
+                    await updatestatus(sellerId ,"warning")
+                }
+            }
+            newUsersReport=[... seller.usersReport ,userId]
+            return sellerModel.findByIdAndUpdate({_id:sellerId},{usersReport:newUsersReport},{new:true})
+        }
 }
 async function userLogin(req, res) {
   const { email, pwd } = req.body;
@@ -79,10 +77,11 @@ async function userLogin(req, res) {
             httpOnly: true,
             sameSite: "None",
             secure: true,
+            // maxAge: 3 * 60 * 1000,
             maxAge: 7 * 24 * 60 * 60 * 1000,
           });
 
-          res.json({ accessToken ,userId:findUser._id});
+          res.json({ accessToken });
         } catch (err) {
           console.error("Error saving refreshToken:", err);
           res.status(500).json({ message: "Internal server error." });
