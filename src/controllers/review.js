@@ -9,9 +9,19 @@ function getAllReviews(){
 }
 function getReviewById(id){
     return ReviewModel.findOne({_id:id})
+    .populate("product",["title_en","title_ar","img","comment","rating"])
+    .populate("user",["userName","lastName","email","address"])
+
   }
 function getUserReviewById(id){
-    return ReviewModel.findOne({user:id}).populate("product").populate("user")
+    return ReviewModel.findOne({user:id})
+    .populate("product",["title_en","title_ar","img","comment","rating"])
+    .populate("user",["userName","lastName","email","address"])
+}
+function getProductReviewById(id){
+    return ReviewModel.findOne({product:id})
+    .populate("product",["title_en","title_ar","img","comment","rating"])
+    .populate("user",["userName","lastName","email","address"])
 }
 
 function updateReview(id,reviewData){
@@ -22,4 +32,4 @@ function deleteReview(id){
     return ReviewModel.findByIdAndDelete(id);
 }
 
-module.exports={saveReview,getAllReviews,getReviewById,getUserReviewById,updateReview,deleteReview}
+module.exports={saveReview,getAllReviews,getReviewById,getUserReviewById,updateReview,deleteReview,getProductReviewById}
