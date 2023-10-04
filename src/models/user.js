@@ -38,7 +38,8 @@ var userSchema= mongoose.Schema(
             default:"user",
         },
         address:{
-            type:String
+            type:String,
+            require:true,
         }
     }
 )
