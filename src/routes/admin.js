@@ -3,7 +3,8 @@ const adminModel = require("../models/admins");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcryptjs');
-const authMiddleware = require("../middlewares/auth");
+const dotenv = require("dotenv")
+dotenv.config({ path: "config.env" })
 const { saveAdmin } = require("../controllers/admin");
 
 router.post("/signup", async (req, res) => {
@@ -41,8 +42,8 @@ router.post("/login", async (req, res) => {
     }
 
     var token = jwt.sign(
-      { id: admin._id, name: admin.adminName },
-      process.env.SECRET
+      { id: admin._id, name: admin.adminName, role: admin.role },
+      process.env.JWT_SECRET
     );
     res.status(200).json({ token, status: "success" });
   } catch (err) {

@@ -3,19 +3,19 @@ const bcrypt = require('bcryptjs');
 
 var userSchema= mongoose.Schema(
     {
-        fristName:{
+        name:{
             type:String,
             require:true,
             minlength:[2,'min length is 2']
             },
         lastName:{
             type:String,
-            require:true,
+            require:false,
             minlength:[2,'min length is 2']
         },
         userName:{
             type:String,
-            require:true,
+            require:false,
             unique:true,
             minlength:[5,'min length is 5'],
             
@@ -30,28 +30,26 @@ var userSchema= mongoose.Schema(
         password:{
             type:String,
             require:true,
-            minlength:[10,'min length is 10']
+            minlength:[6,'min length is 6']
 
         },
         role:{
             type:String,
             default:"user",
-            enum: ["user", "admin","seller"],
         },
         address:{
-            type:String
+            type:String,
+            require:true,
         }
     }
 )
 
 userSchema.pre("save",async function(next){
-        var salt =await bcrypt.genSalt(10)
-        var hashedpass=await bcrypt.hash(this.password,salt)
-        this.password=hashedpass
-        next()
-    }
-)
-
+    let salt =await bcrypt.genSalt(12);
+    let hashedPassword= await bcrypt.hash(this.password,salt);
+    this.password=hashedPassword;
+    next();
+})
 
 var User_model = mongoose.model('user',userSchema)
 

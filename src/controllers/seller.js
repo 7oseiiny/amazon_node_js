@@ -20,5 +20,9 @@ function getSellerById(id){
 function updateSeller(id , seller){
     return sellerModel.findByIdAndUpdate(id,seller,{new:true})
  }
+ function updatestatus(id , status){
+    return sellerModel.findByIdAndUpdate({_id:id},{status:status},{new:true})
+ }
+ 
 
- module.exports = {saveNewSeller,getAllUSellers,deleteSeller,getSellerById,updateSeller}
+ module.exports = {saveNewSeller,getAllUSellers,deleteSeller,getSellerById,updateSeller,updatestatus,}

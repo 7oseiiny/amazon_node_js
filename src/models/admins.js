@@ -27,8 +27,15 @@ var adminSchema = mongoose.Schema(
       },
       required: [true, "Email required"],
     },
+    role:{
+        type :String ,
+        default:"admin"
+      }
+
   },
-  { timestamps: true }
+  { timestamps: true },
+
+  
 );
 
 adminSchema.pre('save', async function (next){
