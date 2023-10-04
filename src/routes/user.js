@@ -6,6 +6,7 @@ var {addNewCart} = require('../controllers/cart');
 const cors = require("cors");
 const multer  = require('multer');
 const path = require("path");
+const { saveFavorite } = require('../controllers/Favorite');
 
 router.use(cors());
 const fileStorageEngine = multer.diskStorage({
@@ -36,7 +37,9 @@ router.post("/signup", async (req, res) => {
 
         var newuser = await saveNewUser(user)
         var newcart ={"user":newuser._id}
+        var newfav ={"userId":newuser._id}
         await addNewCart(newcart)
+        await saveFavorite(newfav)
 
         res.status(201).json({ data: newuser })
     } catch (err) {
