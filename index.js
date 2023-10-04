@@ -19,6 +19,7 @@ const cors = require('cors');
 const sellerRoutes = require('./src/routes/seller')
 const FavRoutes= require('./src/routes/favorite');
 var app=express()
+const cookieParser = require('cookie-parser');
 
 app.use(cors(
     {
@@ -34,10 +35,11 @@ if (process.env.NODE_ENV == 'development') {
 
 
 app.use(express.json())
-
-
-
-
+app.use(cookieParser());
+app.get('/test', (req, res) => {
+    console.log(req.cookies);
+    res.send('Testing cookies');
+  });
 app.use('/product',productRoutes);
 app.use('/category',categoryRoutes);
 app.use('/search',searchRoutes);
@@ -63,8 +65,6 @@ app.use(function(err,req,res,next){
     next();
 
 })
-
-
 
 
 const port = process.env.PORT || 3000
