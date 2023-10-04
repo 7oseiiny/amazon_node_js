@@ -24,7 +24,10 @@ router.post("/single", upload.single("image"), (req, res) => {
   res.send("Single FIle upload success");
 });
 
+router.get("/single", async (req, res) => {
+    res.sendFile(path.join(__dirname, './image'));
 
+});
 
 router.post("/signup", async (req, res) => {
     var user = req.body
