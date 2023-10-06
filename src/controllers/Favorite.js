@@ -18,7 +18,7 @@ async function saveFavorite(favorite) {
     }
 }
 function getFavoriteByUserId(userId) {
-    return FavoriteModel.findOne({ userId: userId }).populate("userId");
+    return FavoriteModel.findOne({ userId: userId }).populate("userId").populate("productId");
 }
 
 function getAllFavorites() {
@@ -27,7 +27,12 @@ function getAllFavorites() {
 
 async function addNewProductsInFav(userId, products) {
     var oldFav = await getFavoriteByUserId(userId);
-    var newFavitems = [...oldFav.productId, ...products];
+    if (oldFav.productId.toString().includes((products))) {
+        return oldFav
+    }
+    var newFavitems = [...oldFav.productId, products];
+    console.log(products);
+
     return FavoriteModel.findOneAndUpdate(
         { userId: userId },
         { productId: newFavitems },
@@ -37,13 +42,13 @@ async function addNewProductsInFav(userId, products) {
 
 async function removeProductsInFav(userId, productId) {
     var oldFav = await getFavoriteByUserId(userId);
-    console.log(oldFav);
-    for (let i = 0; i < oldFav.productId.length; i++) {
-        if (oldFav.productId[i] == productId) {
-            oldFav.productId.splice(i, 1);
+    let c=0
+    for (const fav of oldFav.productId) {
+        if (fav._id.toString() == productId) {
+            oldFav.productId.splice(c, 1);
         }
+        c++
     }
-    console.log(oldFav);
     var newFavitems = [...oldFav.productId];
 
     return FavoriteModel.findOneAndUpdate(
