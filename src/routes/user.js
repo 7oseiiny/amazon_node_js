@@ -40,20 +40,7 @@ router.get("/single", async (req, res) => {
 
 });
 
-router.post("/signup", async (req, res) => {
-  var user = req.body;
-
-  try {
-    var newuser = await saveNewUser(user);
-    var newcart = { user: newuser._id };
-    await addNewCart(newcart);
-
-    res.status(201).json({ data: newuser });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
-
+router.post("/signup",saveNewUser);
 router.get("/refresh", handleRefreshToken);
 router.post("/login", userLogin);
 router.get("/logout", handleLogout);

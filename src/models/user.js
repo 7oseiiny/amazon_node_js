@@ -40,16 +40,15 @@ var userSchema= mongoose.Schema(
         address:{
             type:String,
             require:true,
-        }
+        },
+        refreshToken:{
+            type:String,
+            default:""
+        },
     }
 )
 
-userSchema.pre("save",async function(next){
-    let salt =await bcrypt.genSalt(12);
-    let hashedPassword= await bcrypt.hash(this.password,salt);
-    this.password=hashedPassword;
-    next();
-})
+  
 
 var User_model = mongoose.model('user',userSchema)
 
