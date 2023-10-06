@@ -10,24 +10,25 @@ const {
   handleLogout
 } = require("../controllers/user");
 var { addNewCart } = require("../controllers/cart");
-const express =require('express')
-var {promisify}=require('util')
-var router=express.Router()
-var {addNewCart} = require('../controllers/cart');
+const express = require('express')
+var { promisify } = require('util')
+var router = express.Router()
+var { addNewCart } = require('../controllers/cart');
 const cors = require("cors");
-const multer  = require('multer');
+const multer = require('multer');
 const path = require("path");
+const { saveFavorite } = require('../controllers/Favorite');
 
 router.use(cors());
 const fileStorageEngine = multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null,path.join(__dirname, "../../image")); //important this is a direct path fron our current file to storage location
-    },
-    filename: (req, file, cb) => {
-      cb(null, file.originalname);
-    },
-  });
-  const upload = multer({ storage: fileStorageEngine});
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, "../../image")); //important this is a direct path fron our current file to storage location
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  },
+});
+const upload = multer({ storage: fileStorageEngine });
 
 // Single File Route Handler
 router.post("/single", upload.single("image"), (req, res) => {
@@ -36,24 +37,12 @@ router.post("/single", upload.single("image"), (req, res) => {
 });
 
 router.get("/single", async (req, res) => {
-    res.sendFile(path.join(__dirname, './image'));
+  res.sendFile(path.join(__dirname, './image'));
 
 });
 
-router.post("/signup", async (req, res) => {
-  var user = req.body;
 
-  try {
-    var newuser = await saveNewUser(user);
-    var newcart = { user: newuser._id };
-    await addNewCart(newcart);
-
-    res.status(201).json({ data: newuser });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
-
+router.post("/signup",saveNewUser);
 router.get("/refresh", handleRefreshToken);
 router.post("/login", userLogin);
 router.get("/logout", handleLogout);

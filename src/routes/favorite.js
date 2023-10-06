@@ -44,9 +44,10 @@ router.get("/:userId", async (req, res) => {
 });
 
 // adds a product to a user's favorites
-router.post('/:userId/addProductInFav', async (req, res) => {
+router.post('/:userId/addProductInFav/:productId', async (req, res) => {
   var userId = req.params.userId
-  var products = req.body.productId
+  var products = req.params.productId
+  // console.log(userId);
    try {
        var newproducts = await addNewProductsInFav(userId,products)
        res.status(201).json({ data: newproducts })

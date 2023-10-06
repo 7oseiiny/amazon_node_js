@@ -12,6 +12,7 @@ var cartRoutes =require('./src/routes/cart');
 const productRoutes=require('./src/routes/products');
 const categoryRoutes=require('./src/routes/category');
 const searchRoutes=require('./src/routes/search');
+const searchByCategory=require('./src/routes/searchByCategory');
 const reviewRoutes=require('./src/routes/review');
 const adminRoutes = require('./src/routes/admin');
 const orderRoutes = require('./src/routes/order');
@@ -38,13 +39,10 @@ if (process.env.NODE_ENV == 'development') {
 
 app.use(express.json())
 app.use(cookieParser());
-app.get('/test', (req, res) => {
-    console.log(req.cookies);
-    res.send('Testing cookies');
-  });
 app.use('/product',productRoutes);
 app.use('/category',categoryRoutes);
-app.use('/search',searchRoutes);
+app.use('/searchAll',searchRoutes);
+app.use('/searchByCategory',searchByCategory);
 
 app.use('/user',userRoutes);
 app.use('/cart',cartRoutes);
