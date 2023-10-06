@@ -39,6 +39,28 @@ async function getGreaterThanPrice(price) {
     return null;
   }
 }
+async function getBetweenPrices(maxPrice, minPrice) {
+  try {
+    const result = await productModel.find({
+      "price.new": { $gte: minPrice, $lte: maxPrice },
+    });
+    return result;
+  } catch (err) {
+    console.error("Error ", err);
+    return null;
+  }
+}
+async function getGreaterThanDiscount(discount) {
+  try {
+    const result = await productModel.find({
+      "price.discount": { $gt: discount },
+    });
+    return result;
+  } catch (err) {
+    console.error("Error ", err);
+    return null;
+  }
+}
 async function updateProduct(id, productData) {
   let oldProduct = await productModel.findById(id);
   let newProduct = productData;
@@ -89,6 +111,7 @@ async function updateProduct(id, productData) {
   return updateProduct;
 }
 
+
 async function deleteProduct(id) {
   try {
     let deletedProduct = await productModel.findById(id);
@@ -136,5 +159,7 @@ module.exports = {
   getproductByid,
   updatequantity,
   getLessThanPrice,
-  getGreaterThanPrice
+  getGreaterThanPrice,
+  getBetweenPrices,
+  getGreaterThanDiscount
 };
