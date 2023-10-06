@@ -43,7 +43,7 @@ router.post("/login", async (req, res) => {
 
     var token = jwt.sign(
       { id: admin._id, name: admin.adminName, role: admin.role },
-      process.env.JWT_SECRET
+      process.env.ACCESS_TOKEN_SECRET
     );
     res.status(200).json({ token, status: "success" });
   } catch (err) {
