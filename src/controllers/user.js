@@ -87,7 +87,7 @@ async function userLogin(req, res) {
     try {
       findUser.refreshToken = refreshToken;
       await findUser.save();
-      res.cookie("jwt", refreshToken, {
+      res.cookie("accessToken", refreshToken, {
         httpOnly: true,
         sameSite: "None",
         secure: true,
