@@ -94,7 +94,7 @@ async function userLogin(req, res) {
         maxAge: 7 * 24 * 60 * 60 * 1000,
       });
 
-      res.json({ accessToken });
+      res.json({ accessToken, userId: findUser._id });
     } catch (err) {
       console.error("Error saving refreshToken:", err);
       res.status(500).json({ message: "Internal server error." });
