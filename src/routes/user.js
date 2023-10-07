@@ -41,6 +41,12 @@ router.get("/single", async (req, res) => {
 
 });
 
+router.post("/single", upload.single("image"), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ error: "No file uploaded" });
+  }
+  res.json({ message: "File uploaded successfully" });
+});
 
 router.post("/signup",saveNewUser);
 router.get("/refresh", handleRefreshToken);
