@@ -73,45 +73,36 @@ async function userLogin(req, res) {
     if (!match) {
       return res.status(401).json({ message: "Invalid password." });
     }
-   
+    const accessToken = jwt.sign(
+      { id: findUser._id, name: findUser.username, role: findUser.role },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: "15m" }
+    );
 
-    bcrypt
-      .compare(pwd.trim(), findUser.password)
-      .then(async () => {
-        const accessToken = jwt.sign(
-          { id: findUser._id, name: findUser.username, role: findUser.role },
-          process.env.ACCESS_TOKEN_SECRET,
-          { expiresIn: "15m" }
-        );
-
-        const refreshToken = jwt.sign(
-          { id: findUser._id, name: findUser.username, role: findUser.role },
-          process.env.REFRESH_TOKEN_SECRET,
-          { expiresIn: "7d" }
-        );
-
-        try {
-          findUser.refreshToken = refreshToken;
-          await findUser.save();
-          res.cookie("jwt", refreshToken, {
-            httpOnly: true,
-            sameSite: "None",
-            secure: true,
-            // maxAge: 3 * 60 * 1000,
-            maxAge: 7 * 24 * 60 * 60 * 1000,
-          });
-        }
-          res.json({ accessToken, userId:findUser._id  });
-        } catch (err) {
-          console.error("Error saving refreshToken:", err);
-          res.status(500).json({ message: "Internal server error." });
-        }
-      })
-      .catch((err) => {
-        res.status(401).json({ message: "Invalid password." });
+    const refreshToken = jwt.sign(
+      { id: findUser._id, name: findUser.username, role: findUser.role },
+      process.env.REFRESH_TOKEN_SECRET,
+      { expiresIn: "7d" }
+    );
+    try {
+      findUser.refreshToken = refreshToken;
+      await findUser.save();
+      res.cookie("jwt", refreshToken, {
+        httpOnly: true,
+        sameSite: "None",
+        secure: true,
+        maxAge: 7 * 24 * 60 * 60 * 1000,
       });
+
+      res.json({ accessToken });
+    } catch (err) {
+      console.error("Error saving refreshToken:", err);
+      res.status(500).json({ message: "Internal server error." });
     }
-   
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error." });
+  }
 }
 
 async function handleRefreshToken(req, res) {
