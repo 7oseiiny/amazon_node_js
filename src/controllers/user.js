@@ -115,7 +115,7 @@ async function userLogin(req, res) {
 }
 
 async function handleRefreshToken(req, res) {
-  const cookies = req.cookies.accessToken;
+  const cookies = req.cookies.jwt;
   // console.log("getCookies:", cookies);
   if (!cookies) {
     console.log("getCookies:", cookies);
@@ -154,15 +154,15 @@ async function handleRefreshToken(req, res) {
 
 const handleLogout = async (req, res) => {
   const cookies = req.cookies;
-  if (!cookies?.accessToken) return res.sendStatus(204); //No content
-  const refreshToken = cookies.accessToken;
+  if (!cookies?.jwt) return res.sendStatus(204); //No content
+  const refreshToken = cookies.jwt;
 
   // Is refreshToken in db?
   const foundUser = await User_model.findOne({ refreshToken: refreshToken });
   foundUser.refreshToken = "";
   await foundUser.save();
   if (!foundUser) {
-    res.clearCookie("accessToken", {
+    res.clearCookie("jwt", {
       httpOnly: true,
       sameSite: "None",
       // secure: true,
@@ -171,7 +171,7 @@ const handleLogout = async (req, res) => {
     return res.sendStatus(204);
   }
 
-  res.clearCookie("accessToken", {
+  res.clearCookie("jwt", {
     httpOnly: true,
     sameSite: "None",
     // secure: true,
