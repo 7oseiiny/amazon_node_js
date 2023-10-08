@@ -5,6 +5,8 @@ var jwt = require("jsonwebtoken");
 require("dotenv").config({ path: "config.env" });
 
 const { getSellerById, updatestatus } = require("./seller");
+const { addNewCart } = require("./cart");
+const { saveFavorite } = require("./Favorite");
 
 async function saveNewUser(req, res) {
   try {
@@ -14,6 +16,12 @@ async function saveNewUser(req, res) {
     user.password = hashedPassword;
 
     const newUser = await User_model.create(user);
+
+    var newcart ={"user":newUser._id}
+    var newfav ={"userId":newUser._id}
+    await addNewCart(newcart)
+    await saveFavorite(newfav)
+
     return res.status(201).json(newUser);
   } catch (error) {
     console.error("Error saving new user:", error);
