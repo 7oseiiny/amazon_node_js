@@ -19,7 +19,7 @@ function getUserReviewById(id){
     .populate("user",["userName","lastName","email","address"])
 }
 function getProductReviewById(id){
-    return ReviewModel.findOne({product:id})
+    return ReviewModel.find({product:id})
     .populate("product",["title_en","title_ar","img","comment","rating"])
     .populate("user",["userName","lastName","email","address"])
 }
