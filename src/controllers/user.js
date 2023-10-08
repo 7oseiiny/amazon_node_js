@@ -87,14 +87,15 @@ async function userLogin(req, res) {
     try {
       findUser.refreshToken = refreshToken;
       await findUser.save();
+      // res.setHeader("Authorization", `Bearer ${accessToken}`);
       res.cookie("jwt", refreshToken, {
         httpOnly: true,
         sameSite: "None",
-        secure: true,
+        // secure: true,
         maxAge: 7 * 24 * 60 * 60 * 1000,
       });
 
-      res.json({ accessToken });
+      res.json({ accessToken ,userId:findUser._id});
     } catch (err) {
       console.error("Error saving refreshToken:", err);
       res.status(500).json({ message: "Internal server error." });
@@ -152,13 +153,11 @@ const handleLogout = async (req, res) => {
   const foundUser = await User_model.findOne({ refreshToken: refreshToken });
   foundUser.refreshToken = "";
   await foundUser.save();
-  // let updatedUser = { ...foundUser, refreshToken: refreshToken };
-  // await User_model.findByIdAndUpdate(foundUser._id, updatedUser, { new: true });
   if (!foundUser) {
     res.clearCookie("jwt", {
       httpOnly: true,
       sameSite: "None",
-      secure: true,
+      // secure: true,
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
     return res.sendStatus(204);
@@ -167,7 +166,7 @@ const handleLogout = async (req, res) => {
   res.clearCookie("jwt", {
     httpOnly: true,
     sameSite: "None",
-    secure: true,
+    // secure: true,
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
   res.sendStatus(204);
