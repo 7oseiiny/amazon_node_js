@@ -95,10 +95,11 @@ async function userLogin(req, res) {
     try {
       findUser.refreshToken = refreshToken;
       await findUser.save();
-      res.cookie("accessToken", refreshToken, {
+      // res.setHeader("Authorization", `Bearer ${accessToken}`);
+      res.cookie("jwt", refreshToken, {
         httpOnly: true,
         sameSite: "None",
-        secure: true,
+        // secure: true,
         maxAge: 7 * 24 * 60 * 60 * 1000,
       });
 
@@ -160,13 +161,11 @@ const handleLogout = async (req, res) => {
   const foundUser = await User_model.findOne({ refreshToken: refreshToken });
   foundUser.refreshToken = "";
   await foundUser.save();
-  // let updatedUser = { ...foundUser, refreshToken: refreshToken };
-  // await User_model.findByIdAndUpdate(foundUser._id, updatedUser, { new: true });
   if (!foundUser) {
     res.clearCookie("accessToken", {
       httpOnly: true,
       sameSite: "None",
-      secure: true,
+      // secure: true,
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
     return res.sendStatus(204);
@@ -175,7 +174,7 @@ const handleLogout = async (req, res) => {
   res.clearCookie("accessToken", {
     httpOnly: true,
     sameSite: "None",
-    secure: true,
+    // secure: true,
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
   res.sendStatus(204);
