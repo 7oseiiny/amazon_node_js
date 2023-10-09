@@ -1,7 +1,11 @@
+const productModel = require('../models/product');
 const ReviewModel=require('../models/review');
+const { getproductByid } = require('./products');
 
 
-function saveReview(userId, productId, rating,comment){
+async function saveReview(userId, productId, rating,comment){
+   
+
     return ReviewModel.create({user:userId,product:productId,rating:rating,comment:comment})
 }
 function getAllReviews(){
