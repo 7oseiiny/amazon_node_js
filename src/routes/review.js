@@ -6,6 +6,7 @@ const {
   updateReview,
   deleteReview,
   getReviewById,
+  getProductReviewById
 } = require("../controllers/review");
 const express = require("express");
 const productModel = require("../models/product");
@@ -55,6 +56,22 @@ router.get("/user/:id", async (req, res) => {
   var { id } = req.params;
   try {
     var review = await getUserReviewById(id);
+    if (review) {
+      res.status(200).json({ data: review });
+    } else {
+      res
+        .status(404)
+        .json({ message: "review not found for the specified user ID" });
+    }
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+router.get("/product/:id", async (req, res) => {
+  var { id } = req.params;
+  try {
+    var review = await getProductReviewById(id);
     if (review) {
       res.status(200).json({ data: review });
     } else {

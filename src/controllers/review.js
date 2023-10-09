@@ -25,5 +25,10 @@ function updateReview(id,reviewData){
 function deleteReview(id){
     return ReviewModel.findByIdAndDelete(id);
 }
+function getProductReviewById(id){
+    return ReviewModel.find({product:id})
+    .populate("product",["title_en","title_ar","img","comment","rating"])
+    .populate("user",["userName","lastName","email","address"])
+}
 
-module.exports={saveReview,getAllReviews,getReviewById,getUserReviewById,updateReview,deleteReview}
+module.exports={saveReview,getAllReviews,getReviewById,getUserReviewById,updateReview,deleteReview,getProductReviewById}
