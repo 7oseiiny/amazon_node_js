@@ -45,6 +45,14 @@ const productSchema = new mongoose.Schema({
   quantity:{
     type : Number ,  
     default:0
+  },
+  avg_rating:{
+    type : Number ,  
+    default:0
+  },
+  num_rating:{
+    type : Number ,  
+    default:0
   }
 
 },

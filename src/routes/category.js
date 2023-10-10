@@ -78,7 +78,7 @@ router.get("/getbyname/:name", async (req, res) => {
   let { name } = req.params;
   const pageNumber = req.query.pageNumber || 1;
   const productsPerPage = 12
-  console.log(name);
+  // console.log(name);
   try {
     let category = await getCategoryByName(name,pageNumber,productsPerPage);
     res.status(201).json( category  );

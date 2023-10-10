@@ -1,3 +1,4 @@
+const { getproductByid } = require("../controllers/products");
 const {
   saveReview,
   getAllReviews,
@@ -8,6 +9,7 @@ const {
   getProductReviewById
 } = require("../controllers/review");
 const express = require("express");
+const productModel = require("../models/product");
 const router = express.Router();
 
 
@@ -17,6 +19,11 @@ router.post("/:user/:product", async (req, res) => {
     var {rating,comment}= req.body;
   try {
     let newReview = await saveReview(userId, productId, rating,comment);
+    
+    let product =await getproductByid(productId)
+    let newRating= ((rating*1)+(product.avg_rating*product.num_rating))/(product.num_rating+1)
+    await productModel.findOneAndUpdate({_id:productId},{num_rating:product.num_rating+1,avg_rating:newRating})
+
     res.status(201).json({ data: newReview });
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -60,6 +67,22 @@ router.get("/user/:id", async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+router.get("/product/:id", async (req, res) => {
+  var { id } = req.params;
+  try {
+    var review = await getProductReviewById(id);
+    if (review) {
+      res.status(200).json({ data: review });
+    } else {
+      res
+        .status(404)
+        .json({ message: "review not found for the specified user ID" });
+    }
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 router.get("/product/:id", async (req, res) => {
   var { id } = req.params;
   try {

@@ -1,7 +1,11 @@
+const productModel = require('../models/product');
 const ReviewModel=require('../models/review');
+const { getproductByid } = require('./products');
 
 
-function saveReview(userId, productId, rating,comment){
+async function saveReview(userId, productId, rating,comment){
+   
+
     return ReviewModel.create({user:userId,product:productId,rating:rating,comment:comment})
 }
 function getAllReviews(){
@@ -30,6 +34,11 @@ function updateReview(id,reviewData){
 }
 function deleteReview(id){
     return ReviewModel.findByIdAndDelete(id);
+}
+function getProductReviewById(id){
+    return ReviewModel.find({product:id})
+    .populate("product",["title_en","title_ar","img","comment","rating"])
+    .populate("user",["userName","lastName","email","address"])
 }
 
 module.exports={saveReview,getAllReviews,getReviewById,getUserReviewById,updateReview,deleteReview,getProductReviewById}

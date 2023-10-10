@@ -78,6 +78,7 @@ async function catGreaterThanDiscount(discount, catId) {
 async function getCategoryByName(name, pageNumber, productsPerPage) {
   try {
     const listlen = await CategoryModel.findOne({ name_en: name })
+    console.log(listlen.products.length);
     let pages=Math.ceil(listlen.products.length/productsPerPage)
 
     let list = await CategoryModel.findOne({ name_en: name })
