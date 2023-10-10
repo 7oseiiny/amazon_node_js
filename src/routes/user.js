@@ -18,7 +18,7 @@ const cors = require("cors");
 const multer = require('multer');
 const path = require("path");
 const { saveFavorite } = require('../controllers/Favorite');
-
+const credentials=require('../middlewares/credentials')
 router.use(cors());
 const fileStorageEngine = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -48,12 +48,12 @@ router.post("/single", upload.single("image"), (req, res) => {
   res.json({ message: "File uploaded successfully" });
 });
 
-router.post("/signup",saveNewUser);
-router.get("/refresh", handleRefreshToken);
-router.post("/login", userLogin);
-router.get("/logout", handleLogout);
+router.post("/signup",credentials,saveNewUser);
+router.get("/refresh",credentials, handleRefreshToken);
+router.post("/login",credentials, userLogin);
+router.get("/logout",credentials, handleLogout);
 
-router.get("/", async (req, res) => {
+router.get("/",credentials, async (req, res) => {
   try {
     var users = await getAllUsers();
     res.json({ data: users });
@@ -62,7 +62,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id",credentials, async (req, res) => {
   var id = req.params.id;
   console.log(req.params);
 
@@ -79,7 +79,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.patch("/:id", async (req, res) => {
+router.patch("/:id",credentials, async (req, res) => {
   var user = req.body;
   const id = req.params.id;
   updatedat = Date.now();

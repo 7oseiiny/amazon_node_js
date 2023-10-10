@@ -92,7 +92,7 @@ async function getCategoryByName(name, pageNumber, productsPerPage) {
       },)
       .exec();
       list['pages']=pages
-      console.log(list);
+      // console.log(list);
 
     return {data:list ,pages};
   } catch (err) {

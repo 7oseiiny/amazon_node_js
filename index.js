@@ -19,16 +19,22 @@ const orderRoutes = require("./src/routes/order");
 const subcategoryRoutes = require("./src/routes/subcategory");
 
 const cors = require("cors");
+const {corsOptions}=require("./src/middlewares/corsOptions");
 const sellerRoutes = require("./src/routes/seller");
 const FavRoutes = require("./src/routes/favorite");
 var app = express();
 const cookieParser = require("cookie-parser");
+const credentials=require('./src/middlewares/credentials');
 
-app.use(
-  cors({
-    origin: "*",
-  })
-);
+app.use(cors(corsOptions));
+app.use(credentials);
+app.options('*', cors(corsOptions));
+app.use((req, res, next) => {
+  console.log('Request Headers:', req.headers);
+  next();
+});
+app.use(express.json());
+app.use(cookieParser());
 
 mongoose
   .connect(process.env.DB_URI)
@@ -44,8 +50,7 @@ if (process.env.NODE_ENV == "development") {
   app.use(morgan("dev"));
 }
 
-app.use(express.json());
-app.use(cookieParser());
+
 app.use("/product", productRoutes);
 app.use("/category", categoryRoutes);
 app.use("/searchAll", searchRoutes);

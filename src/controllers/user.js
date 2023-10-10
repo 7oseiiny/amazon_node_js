@@ -95,11 +95,11 @@ async function userLogin(req, res) {
     try {
       findUser.refreshToken = refreshToken;
       await findUser.save();
-      // res.setHeader("Authorization", `Bearer ${accessToken}`);
+      res.header('Access-Control-Allow-Origin', 'http://localhost:5173');
       res.cookie("jwt", refreshToken, {
         httpOnly: true,
         sameSite: "None",
-        // secure: true,
+        secure: true,
         maxAge: 7 * 24 * 60 * 60 * 1000,
       });
 
@@ -165,7 +165,7 @@ const handleLogout = async (req, res) => {
     res.clearCookie("jwt", {
       httpOnly: true,
       sameSite: "None",
-      // secure: true,
+      secure: true,
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
     return res.sendStatus(204);
@@ -174,7 +174,7 @@ const handleLogout = async (req, res) => {
   res.clearCookie("jwt", {
     httpOnly: true,
     sameSite: "None",
-    // secure: true,
+    secure: true,
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
   res.sendStatus(204);

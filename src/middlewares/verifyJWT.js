@@ -5,6 +5,7 @@ const verifyJWT = (req, res, next) => {
   const authHeader = req.headers["cookie"];
   if (!authHeader) {
     console.log(req.headers);
+    // console.log("authHeader",authHeader);
     return res.sendStatus(401);
   }
 
