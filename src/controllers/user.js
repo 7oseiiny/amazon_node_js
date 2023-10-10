@@ -95,7 +95,6 @@ async function userLogin(req, res) {
     try {
       findUser.refreshToken = refreshToken;
       await findUser.save();
-      res.header('Access-Control-Allow-Origin', 'http://localhost:5173');
       res.cookie("jwt", refreshToken, {
         httpOnly: true,
         sameSite: "None",
