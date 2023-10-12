@@ -13,6 +13,7 @@ const productRoutes = require("./src/routes/products");
 const categoryRoutes = require("./src/routes/category");
 const searchRoutes = require("./src/routes/search");
 const searchByCategory = require("./src/routes/searchByCategory");
+const searchBySubCategory = require("./src/routes/searchBySubCategory");
 const reviewRoutes = require("./src/routes/review");
 const adminRoutes = require("./src/routes/admin");
 const orderRoutes = require("./src/routes/order");
@@ -55,6 +56,7 @@ app.use("/product", productRoutes);
 app.use("/category", categoryRoutes);
 app.use("/searchAll", searchRoutes);
 app.use("/searchByCategory", searchByCategory);
+app.use("/searchBySubCategory", searchBySubCategory);
 
 app.use("/user", userRoutes);
 app.use("/cart", cartRoutes);
