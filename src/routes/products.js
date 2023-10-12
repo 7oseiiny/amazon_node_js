@@ -1,4 +1,4 @@
-const { saveProduct, getAllProducts, updateProduct, deleteProduct ,getproductByid ,updatequantity} = require('../controllers/products');
+const { saveProduct, getAllProducts, updateProduct, deleteProduct ,getproductByid ,updatequantity,updatequantityAdd} = require('../controllers/products');
 const express = require('express');
 const router = express.Router();
 
@@ -63,6 +63,20 @@ router.patch('/updatequantity/:prodId', async (req, res) => {
 
         let products = await updatequantity(prodId ,new_q);
         res.status(201).json({ data: products })
+    } catch (err) {
+        res.status(500).json({ "message": err });
+    }
+})
+router.patch('/updatequantityAdd/:prodId', async (req, res) => {
+    let { prodId } = req.params;
+    let new_q=req.body.quantity
+    // console.log(new_q)
+    //  console.log(prodId)
+    try {
+
+        let products = await updatequantityAdd(prodId ,new_q);
+        res.status(201).json({ data: products })
+        console.log(prodId)
     } catch (err) {
         res.status(500).json({ "message": err });
     }

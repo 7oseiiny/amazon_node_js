@@ -151,6 +151,18 @@ async function updatequantity(prodId, new_q) {
   );
 }
 
+async function updatequantityAdd(prodId, new_q) {
+  let q = await getproductByid(prodId);
+  console.log(q.quantity);
+  console.log(new_q);
+  let newq = q.quantity + new_q;
+  return productModel.findOneAndUpdate(
+    { _id: prodId },
+    { quantity: newq },
+    { new: true }
+  );
+}
+
 module.exports = {
   saveProduct,
   getAllProducts,
@@ -161,5 +173,6 @@ module.exports = {
   getLessThanPrice,
   getGreaterThanPrice,
   getBetweenPrices,
-  getGreaterThanDiscount
+  getGreaterThanDiscount,
+  updatequantityAdd
 };
