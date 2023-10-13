@@ -12,7 +12,7 @@ const loginAuth = require('../middlewares/auth');
 const verifyJWT = require('../middlewares/verifyJWT');
 
 
-router.post("/:userId/addNewOrder", verifyJWT, async (req, res) => {
+router.post("/:userId/addNewOrder", async (req, res) => {
     var userId = req.params.userId
     var order = req.body
     order.user = userId
@@ -50,7 +50,7 @@ router.post("/:userId/addNewOrder", verifyJWT, async (req, res) => {
 //     }
 
 // })
-router.delete("/:orderId",verifyJWT, async (req, res) => {
+router.delete("/:orderId", async (req, res) => {
     var { orderId } = req.params
     try {
         var order = await orderDelete(orderId);
@@ -94,7 +94,7 @@ router.get("/:orderId", async (req, res) => {
     }
 });
 
-router.get("/",verifyJWT, async (req, res) => {
+router.get("/", async (req, res) => {
 
     try {
         var orders = await getAllOrders()
@@ -103,7 +103,7 @@ router.get("/",verifyJWT, async (req, res) => {
         res.status(500).json({ message: err.message })
     }
 })
-router.get("/getByUserId/:userId",verifyJWT, async (req, res) => {
+router.get("/getByUserId/:userId", async (req, res) => {
     const userID = req.params.userId;
     try {
         var orders = await getOrderItemsByUserID(userID);
@@ -114,7 +114,7 @@ router.get("/getByUserId/:userId",verifyJWT, async (req, res) => {
     }
 })
 
-router.patch("/:orderId/changetocomplete",verifyJWT, async (req, res) => {
+router.patch("/:orderId/changetocomplete", async (req, res) => {
     const orderId = req.params.orderId;
     try {
         var orders = await updatetoComplete(orderId);
