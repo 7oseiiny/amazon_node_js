@@ -30,7 +30,11 @@ var adminSchema = mongoose.Schema(
     role:{
         type :String ,
         default:"admin"
-      }
+      },
+      refreshToken: {
+        type: String,
+        default: "",
+      },
 
   },
   { timestamps: true },
@@ -38,12 +42,12 @@ var adminSchema = mongoose.Schema(
   
 );
 
-adminSchema.pre('save', async function (next){
-    var salt = await bcrypt.genSalt(10)
-    var hashedPass = await bcrypt.hash(this.password, salt)
-  this.password= hashedPass
-  next()
-})
+// adminSchema.pre('save', async function (next){
+//     var salt = await bcrypt.genSalt(10)
+//     var hashedPass = await bcrypt.hash(this.password, salt)
+//   this.password= hashedPass
+//   next()
+// })
 
 const AdminModel = mongoose.model("admin", adminSchema);
 
