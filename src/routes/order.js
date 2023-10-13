@@ -6,8 +6,8 @@ var router = express.Router()
 const userModel = require('../models/user');
 const cart = require('../controllers/cart')
 var { getCartByUserId, clearCart } = require('../controllers/cart');
-var { updatequantity } = require('../controllers/products');
-var { orderDelete, addOrder, getOrderItems, getOrderItemsByUserID, getAllOrders, updatetoComplete } = require("../controllers/order");
+var { updatequantity, updatequantityAdd } = require('../controllers/products');
+var { orderDelete, addOrder, getOrderItems, getOrderItemsByUserID, getAllOrders, updatetoComplete,updatetocancelled } = require("../controllers/order");
 const loginAuth = require('../middlewares/auth');
 const verifyJWT = require('../middlewares/verifyJWT');
 
@@ -118,6 +118,24 @@ router.patch("/:orderId/changetocomplete", async (req, res) => {
     const orderId = req.params.orderId;
     try {
         var orders = await updatetoComplete(orderId);
+        res.status(200).json({ data: orders })
+
+    } catch (error) {
+        res.status(500).json({ message: error })
+    }
+})
+
+router.patch("/:orderId/cancel", async (req, res) => {
+    const orderId = req.params.orderId;
+    let oldOrder = await getOrderItems(orderId)
+    for (const prod of oldOrder.products) {
+        await updatequantityAdd(prod.product._id,prod.quantity)
+
+    }
+    await updatetocancelled(orderId);
+
+    try {
+        
         res.status(200).json({ data: orders })
 
     } catch (error) {

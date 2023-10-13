@@ -23,8 +23,11 @@ function getAllOrders() {
 function updatetoComplete(orderId) {
     return Order_model.findOneAndUpdate({_id:orderId},{status:"completed"},{new:true}).populate('user').populate('products.product')
 }
+function updatetocancelled(orderId) {
+    return Order_model.findOneAndUpdate({_id:orderId},{status:"cancelled"},{new:true}).populate('user').populate('products.product')
+}
 
 
 
 
-module.exports = { addOrder, orderDelete, getOrderItems, getOrderItemsByUserID , getAllOrders ,updatetoComplete  }
+module.exports = { addOrder, orderDelete, getOrderItems, getOrderItemsByUserID , getAllOrders ,updatetoComplete,updatetocancelled  }

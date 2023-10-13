@@ -151,6 +151,7 @@ async function updatequantity(prodId, new_q) {
   );
 }
 
+
 async function updatequantityAdd(prodId, new_q) {
   let q = await getproductByid(prodId);
   console.log(q.quantity);
