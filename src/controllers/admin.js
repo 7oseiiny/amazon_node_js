@@ -98,3 +98,4 @@ async function adminLogin(req, res) {
     res.sendStatus(204);
   };
 module.exports = {saveNewadmin,adminLogin,handleLogout}
+
